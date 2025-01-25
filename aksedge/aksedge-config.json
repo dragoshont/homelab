@@ -1,0 +1,80 @@
+{
+  "SchemaVersion": "1.14",
+  "Version": "1.0",
+  "DeploymentType": "ScalableCluster",
+  "Init": {
+    "ServiceIPRangeStart": "192.168.1.210",
+    "ServiceIPRangeSize": 24
+  },
+  "Arc": {
+    "ClusterName": null,
+    "Location": null,
+    "ResourceGroupName": null,
+    "SubscriptionId": null,
+    "TenantId": null,
+    "ClientId": null,
+    "ClientSecret": null,
+    "CustomLocationsOid": null,
+    "EnableWorkloadIdentity": null
+  },
+  "Network": {
+    "ControlPlaneEndpointIp": "192.168.1.202",
+    "NetworkPlugin": "flannel",
+    "Ip4GatewayAddress": "192.168.1.1",
+    "Ip4PrefixLength": 24,
+    "Ip4AddressPrefix": "192.168.1.0/24",
+  "DnsServers": ["192.168.1.1"],
+    "InternetDisabled": false,
+    "SkipAddressFreeCheck": false,
+    "SkipDnsCheck": false,
+    "Proxy": {
+      "Http": null,
+      "Https": null,
+      "No": "localhost,127.0.0.0/8,192.168.0.0/16,172.17.0.0/16,10.42.0.0/16,10.43.0.0/16,10.96.0.0/12,10.244.0.0/16,.svc"
+    }
+  },
+  "User": {
+    "AcceptEula": true,
+    "AcceptOptionalTelemetry": false,
+    "VolumeLicense": {
+      "EnrollmentID": null,
+      "PartNumber": null
+    },
+    "AcceptGpuWarning": true
+  },
+  "Machines": [
+    {
+      "NetworkConnection": {
+        "AdapterName": "Ethernet",
+        "Mtu": 0
+      },
+      "LinuxNode": {
+        "CpuCount": 4,
+        "MemoryInMB": 12288,
+        "MemoryHugePages": {
+          "Size": null,
+          "Count": null
+        },
+        "DataSizeInGB": 20,
+        "LogSizeInGB": 1,
+        "Ip4Address": "192.168.1.207",
+        "MacAddress": "00:15:5D:01:C9:00",
+        "TimeoutSeconds": 300,
+        "TpmPassthrough": false,
+        "SecondaryNetworks": [
+          {
+            "VMSwitchName": null,
+            "Ip4Address": null,
+            "Ip4GatewayAddress": null,
+            "Ip4PrefixLength": null
+          }
+        ],
+        "GpuPassthrough": {
+          "Name": null,
+          "Type": null,
+          "Count": null
+        }
+      }
+    }
+  ]
+}
