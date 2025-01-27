@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: smbcreds
+  namespace: default
+type: Opaque
+stringData:
+  username: "shareuser"
+  password: "a9Tp2R7K1vNxL6dYwZ3BqV0sH4JmP8Gc"

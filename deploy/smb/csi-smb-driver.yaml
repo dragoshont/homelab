@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: csi-smb-node
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: csi-smb-node
+  template:
+    metadata:
+      labels:
+        app: csi-smb-node
+    spec:
+      containers:
+      - name: csi-smb-node
+        image: mcr.microsoft.com/k8s/csi/smb-csi:latest
+        args:
+        - --nodeid=$(NODE_ID)
+        - --endpoint=$(CSI_ENDPOINT)
+        env:
+        - name: NODE_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: CSI_ENDPOINT
+          value: unix:///csi/csi.sock
+        volumeMounts:
+        - mountPath: /csi
+          name: socket-dir
+        securityContext:
+          privileged: true
+      volumes:
+      - name: socket-dir
+        emptyDir: {}
