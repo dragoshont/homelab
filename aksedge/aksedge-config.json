@@ -7,9 +7,9 @@
     "ServiceIPRangeSize": 24
   },
   "Arc": {
-    "ClusterName": null,
-    "Location": null,
-    "ResourceGroupName": null,
+    "ClusterName": "homelab-l2-k3s",
+    "Location": "westeurope",
+    "ResourceGroupName": "aksedge-rg",
     "SubscriptionId": null,
     "TenantId": null,
     "ClientId": null,
