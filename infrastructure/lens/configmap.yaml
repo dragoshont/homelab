@@ -4,5 +4,5 @@ metadata:
   name: lens-config
   namespace: kube-system
 data:
-  cluster-metrics: ""true""
-  dashboard: ""enabled""
+  cluster-metrics: "true"
+  dashboard: "enabled"
