@@ -7,4 +7,4 @@ resources:
   - ../../apps/media/radarr
   - ../../apps/media/prowlarr
   - ../../apps/media/qbittorrent
-  - ../../apps/traefik  # Add this line to include Traefik manifests
+  # - ../../apps/traefik  # Add this line to include Traefik manifests
