@@ -1,6 +1,5 @@
 resources:
   - ../../infrastructure/namespaces/media-namespace.yaml
-  - ../../infrastructure/lens
   - ../../infrastructure/smb-csi
   - ../../infrastructure/storage
   - ../../infrastructure/networking/traefik
@@ -8,4 +7,3 @@ resources:
   - ../../apps/media/radarr
   - ../../apps/media/prowlarr
   - ../../apps/media/qbittorrent
-  # - ../../apps/traefik  # Add this line to include Traefik manifests
