@@ -1,0 +1,9 @@
+resources:
+  - ../../infrastructure/lens
+  - ../../infrastructure/smb-csi
+  - ../../infrastructure/storage
+  - ../../infrastructure/networking/traefik
+  - ../../apps/media/sonarr
+  - ../../apps/media/radarr
+  - ../../apps/media/prowlarr
+  - ../../apps/media/qbittorrent

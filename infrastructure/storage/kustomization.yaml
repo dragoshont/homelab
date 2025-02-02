@@ -1,0 +1,6 @@
+resources:
+  - smb-secret.yaml
+  - smb-pv.yaml
+  - smb-pvc.yaml
+  - nfs-pv.yaml
+  - nfs-pvc.yaml

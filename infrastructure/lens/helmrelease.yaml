@@ -1,0 +1,22 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: lens-metrics
+  namespace: kube-system
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: lens-metrics
+      version: ""latest""
+      sourceRef:
+        kind: HelmRepository
+        name: lens
+        namespace: flux-system
+      interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
