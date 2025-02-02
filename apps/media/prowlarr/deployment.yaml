@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   namespace: media
   name: prowlarr
-  namespace: media
 spec:
   replicas: 1
   selector:
@@ -11,7 +10,6 @@ spec:
       app: prowlarr
   template:
     metadata:
-  namespace: media
       labels:
         app: prowlarr
     spec:
@@ -36,4 +34,3 @@ spec:
         - name: smb-storage-e
           persistentVolumeClaim:
             claimName: smb-pvc-e
-
