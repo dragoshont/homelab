@@ -6,7 +6,7 @@ This repository manages a Kubernetes homelab using FluxCD for GitOps automation.
 ## Folder Structure
 Below is the folder structure of the repository:
 
-\\\
+ ```
 homelab-gitops/
 ├── clusters/             # Cluster-specific overlays for Flux (e.g., k3s cluster settings, Flux bootstrap files)
 ├── infrastructure/       # Manifests for infrastructure components (storage, networking, CSI drivers, and Lens)
@@ -14,7 +14,6 @@ homelab-gitops/
 │   ├── networking/       # Networking configuration and reverse proxy settings (e.g., Traefik)
 │   │   └── traefik/      # Traefik Helm chart repository and release definitions
 │   ├── smb-csi/          # HelmRelease for SMB CSI driver management
-│   └── lens/             # HelmRelease and configuration for Lens monitoring
 ├── apps/                 # Application deployments (media applications like Sonarr, Radarr, Prowlarr, qBittorrent)
 │   └── media/            # Media apps grouped together
 │       ├── sonarr/       # Sonarr manifests (deployment, service, ingress, kustomization)
@@ -22,7 +21,7 @@ homelab-gitops/
 │       ├── prowlarr/     # Prowlarr manifests (deployment, service, ingress, kustomization)
 │       └── qbittorrent/  # qBittorrent manifests (deployment, service, ingress, kustomization)
 └── README.md             # Project documentation and rationale for the structure
-\\\
+```
 
 ## Reasoning Behind the Folder Structure
 
