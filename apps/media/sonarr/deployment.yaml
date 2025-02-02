@@ -19,11 +19,11 @@ spec:
           ports:
             - containerPort: 8989
           volumeMounts:
-            - mountPath: ""/config""
+            - mountPath: "/config"
               name: config
-            - mountPath: ""/data/nfs""
+            - mountPath: "/data/nfs"
               name: nfs-storage
-            - mountPath: ""/data/smb-e""
+            - mountPath: "/data/smb-e"
               name: smb-storage-e
       volumes:
         - name: config

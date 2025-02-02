@@ -10,4 +10,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: nas.hont.ro
-    path: ""/complete""
+    path: "/complete"
