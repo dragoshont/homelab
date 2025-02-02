@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: media
   name: prowlarr
   namespace: media
 spec:
@@ -10,6 +11,7 @@ spec:
       app: prowlarr
   template:
     metadata:
+  namespace: media
       labels:
         app: prowlarr
     spec:
@@ -34,3 +36,4 @@ spec:
         - name: smb-storage-e
           persistentVolumeClaim:
             claimName: smb-pvc-e
+

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: media
   name: sonarr
   namespace: media
 spec:
@@ -10,6 +11,7 @@ spec:
       app: sonarr
   template:
     metadata:
+  namespace: media
       labels:
         app: sonarr
     spec:
@@ -34,3 +36,4 @@ spec:
         - name: smb-storage-e
           persistentVolumeClaim:
             claimName: smb-pvc-e
+
