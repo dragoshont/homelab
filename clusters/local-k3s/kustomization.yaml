@@ -1,4 +1,5 @@
 resources:
+  - ../../infrastructure/namespaces/media-namespace.yaml
   - ../../infrastructure/lens
   - ../../infrastructure/smb-csi
   - ../../infrastructure/storage
