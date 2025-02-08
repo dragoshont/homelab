@@ -10,4 +10,4 @@ spec:
     requests:
       storage: 500Gi
   volumeName: smb-share-e
-  storageClassName: ""
+  storageClassName: smb-storage-class

@@ -1,5 +1,7 @@
 resources:
   - smb-secret.yaml
+  - nfs-storage-class.yaml
+  - smb-storage-class.yaml
   - smb-pv.yaml
   - smb-pvc.yaml
   - nfs-pv.yaml
