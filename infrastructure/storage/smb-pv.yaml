@@ -12,7 +12,7 @@ spec:
     driver: smb.csi.k8s.io
     volumeHandle: smb-share-e
     volumeAttributes:
-      source: "//l2.hont.ro/E"
+      source: "//l2.hont.ro/InternalShare"
     nodeStageSecretRef:
       name: smb-secret
       namespace: media
