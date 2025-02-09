@@ -4,5 +4,7 @@ resources:
   - smb-storage-class.yaml
   - smb-pv-e.yaml
   - smb-pvc-e.yaml
+  - smb-pv-d.yaml
+  - smb-pvc-d.yaml
   - nfs-pv.yaml
   - nfs-pvc.yaml
