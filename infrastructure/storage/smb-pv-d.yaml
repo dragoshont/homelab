@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: smb-share-e
+  name: smb-share-d
 spec:
   capacity:
     storage: 500Gi
