@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -10,8 +11,8 @@ metadata:
   name: smb-csi-node-sa
   namespace: kube-system
 ---
-kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
 metadata:
   name: smb-csi-controller-role
 rules:
@@ -31,8 +32,8 @@ rules:
     resources: ["leases"]
     verbs: ["get", "list", "watch", "create", "update", "delete"]
 ---
-kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
   name: smb-csi-controller-binding
 subjects:
@@ -44,8 +45,8 @@ roleRef:
   name: smb-csi-controller-role
   apiGroup: rbac.authorization.k8s.io
 ---
-kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
 metadata:
   name: smb-csi-node-role
 rules:
@@ -62,8 +63,8 @@ rules:
     resources: ["volumeattachments"]
     verbs: ["get", "list", "watch", "update"]
 ---
-kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
   name: smb-csi-node-binding
 subjects:
