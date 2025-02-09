@@ -4,7 +4,7 @@ resources:
   - ../../infrastructure/nfs-provisioner
   - ../../infrastructure/storage
   - ../../infrastructure/networking/traefik
-  - ../../apps/media/sonarr
-  - ../../apps/media/radarr
+  # - ../../apps/media/sonarr
+  # - ../../apps/media/radarr
   - ../../apps/media/prowlarr
-  - ../../apps/media/qbittorrent
+  # - ../../apps/media/qbittorrent

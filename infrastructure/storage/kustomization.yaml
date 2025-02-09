@@ -2,9 +2,10 @@ resources:
   - smb-secret.yaml
   - nfs-storage-class.yaml
   - smb-storage-class.yaml
-  - smb-pv-e.yaml
-  - smb-pvc-e.yaml
-  - smb-pv-d.yaml
-  - smb-pvc-d.yaml
+  # - smb-pv-e.yaml
+  # - smb-pvc-e.yaml
+  # - smb-pv-d.yaml
+  # - smb-pvc-d.yaml
+  - pv-pvc.yaml
   - nfs-pv.yaml
   - nfs-pvc.yaml

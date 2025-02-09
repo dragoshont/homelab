@@ -24,13 +24,13 @@ spec:
             - mountPath: "/data/nfs"
               name: nfs-storage
             - mountPath: "/data/smb-e"
-              name: smb-storage-e
+              name: smb-external
       volumes:
         - name: config
           emptyDir: {}
         - name: nfs-storage
           persistentVolumeClaim:
             claimName: nfs-pvc
-        - name: smb-storage-e
+        - name: smb-external
           persistentVolumeClaim:
-            claimName: smb-pvc-e
+            claimName: smb-external-pvc
