@@ -116,12 +116,11 @@ spec:
             type: DirectoryOrCreate
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: smb-csi-controller
   namespace: kube-system
 spec:
-  serviceName: smb-csi-controller
   replicas: 1
   selector:
     matchLabels:
@@ -138,7 +137,6 @@ spec:
           args:
             - "--v=5"
             - "--endpoint=$(ENDPOINT)"
-            - "--leader-election"
           env:
             - name: ENDPOINT
               value: unix:///csi/csi.sock
