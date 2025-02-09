@@ -95,10 +95,10 @@ spec:
           image: mcr.microsoft.com/k8s/csi/smb-csi:latest
           args:
             - "--v=5"
-            - "--csi-address=$(ADDRESS)"
+            - "--endpoint=$(ENDPOINT)"
           env:
-            - name: ADDRESS
-              value: /csi/csi.sock
+            - name: ENDPOINT
+              value: unix:///csi/csi.sock
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
@@ -137,11 +137,11 @@ spec:
           image: mcr.microsoft.com/k8s/csi/smb-csi:latest
           args:
             - "--v=5"
-            - "--csi-address=$(ADDRESS)"
+            - "--endpoint=$(ENDPOINT)"
             - "--leader-election"
           env:
-            - name: ADDRESS
-              value: /csi/csi.sock
+            - name: ENDPOINT
+              value: unix:///csi/csi.sock
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
