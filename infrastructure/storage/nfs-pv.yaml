@@ -1,13 +1,12 @@
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolumeClaim
 metadata:
-  name: nfs-pv
+  name: nfs-pvc
+  namespace: media
 spec:
-  capacity:
-    storage: 1Ti
   accessModes:
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: nas.hont.ro
-    path: "/complete"
+  resources:
+    requests:
+      storage: 1Ti
+  storageClassName: nfs-storage-class
