@@ -4,12 +4,14 @@ metadata:
   name: smb-storage-class
 provisioner: smb.csi.k8s.io
 parameters:
-  source: //l2.hont.ro/InternalDrive
+  source: //l2.hont.ro/InternalShare
+  # if csi.storage.k8s.io/provisioner-secret is provided, will create a sub directory
+  # with PV name under source
   csi.storage.k8s.io/provisioner-secret-name: smbcreds
   csi.storage.k8s.io/provisioner-secret-namespace: default
   csi.storage.k8s.io/node-stage-secret-name: smbcreds
   csi.storage.k8s.io/node-stage-secret-namespace: default
-reclaimPolicy: Delete
+reclaimPolicy: Delete  # available values: Delete, Retain
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
 mountOptions:

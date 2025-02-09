@@ -8,6 +8,7 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  storageClassName: smb-storage-class
   csi:
     driver: smb.csi.k8s.io
     volumeHandle: smb-share-e
