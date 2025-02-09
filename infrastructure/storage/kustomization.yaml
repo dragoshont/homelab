@@ -3,6 +3,6 @@ resources:
   - nfs-storage-class.yaml
   - smb-storage-class.yaml
   - smb-pv.yaml
-  - smb-pvc.yaml
+  - smb-pvc-e.yaml
   - nfs-pv.yaml
   - nfs-pvc.yaml
