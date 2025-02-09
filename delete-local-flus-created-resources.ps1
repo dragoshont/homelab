@@ -35,11 +35,11 @@ kubectl delete -k C:\Repos\homelab\apps\media\qbittorrent
 # Step 3: Resume the kustomization to let Flux recreate the resources
 # This command resumes the kustomization, allowing Flux to manage the resources again.
 Write-Output "Resuming kustomization to let Flux recreate the resources..."
-#flux resume kustomization media-apps-media-apps-kustomization --namespace media
+flux resume kustomization media-apps-media-apps-kustomization --namespace media
 
 # Step 4: Force reconciliation to ensure that Flux applies the latest changes
 # This command forces a reconciliation, ensuring that Flux applies the latest changes to the resources.
 Write-Output "Forcing reconciliation to ensure that Flux applies the latest changes..."
-#flux reconcile kustomization media-apps-media-apps-kustomization --namespace media --with-source --verbose
+flux reconcile kustomization media-apps-media-apps-kustomization --namespace media --with-source --verbose
 
 Write-Output "Reconciliation process completed."
