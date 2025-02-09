@@ -1,7 +1,7 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: smb
+  name: smb-storage-class
 provisioner: smb.csi.k8s.io
 parameters:
   source: //l2.hont.ro/InternalDrive
