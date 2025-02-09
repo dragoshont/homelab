@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: smb.csi.k8s.io
-    volumeHandle: smb-share-e
+    volumeHandle: smb-share-d
     volumeAttributes:
       source: "//l2.hont.ro/ExternalShare"
     nodeStageSecretRef:
