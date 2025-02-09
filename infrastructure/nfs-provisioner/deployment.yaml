@@ -1,21 +1,25 @@
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: nfs-subdir-external-provisioner
-  namespace: kube-system
+  name: nfs-client-provisioner
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nfs-subdir-external-provisioner
+      app: nfs-client-provisioner
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
-        app: nfs-subdir-external-provisioner
+        app: nfs-client-provisioner
     spec:
+      serviceAccountName: nfs-client-provisioner
+      nodeSelector:
+        "kubernetes.io/os": linux
       containers:
-        - name: nfs-subdir-external-provisioner
-          image: quay.io/external_storage/nfs-client-provisioner:latest
+        - name: nfs-client-provisioner
+          image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes
@@ -31,3 +35,4 @@ spec:
           nfs:
             server: nas.hont.ro
             path: /complete
+            readOnly: false
