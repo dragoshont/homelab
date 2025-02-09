@@ -2,3 +2,4 @@ resources:
   - helmrepository.yaml
   - helmrelease.yaml
   - smb-provisioner-rbac.yaml
+  - csi-smb-driver.yaml  # Ensure this file is included if it contains the CSI SMB driver deployment

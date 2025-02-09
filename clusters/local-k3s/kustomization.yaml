@@ -1,5 +1,5 @@
 resources:
-  - ../../infrastructure/namespaces/media-namespace.yaml
+  - ../../infrastructure/namespaces
   - ../../infrastructure/smb-csi
   - ../../infrastructure/nfs-provisioner
   - ../../infrastructure/storage

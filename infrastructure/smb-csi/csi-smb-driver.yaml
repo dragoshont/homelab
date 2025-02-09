@@ -1,0 +1,150 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: smb-csi-controller-sa
+  namespace: kube-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: smb-csi-node-sa
+  namespace: kube-system
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: smb-csi-controller-role
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "update", "patch"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["get", "list", "watch", "create", "update", "delete"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: smb-csi-controller-binding
+subjects:
+  - kind: ServiceAccount
+    name: smb-csi-controller-sa
+    namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: smb-csi-controller-role
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: smb-csi-node-role
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["volumeattachments"]
+    verbs: ["get", "list", "watch", "update"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: smb-csi-node-binding
+subjects:
+  - kind: ServiceAccount
+    name: smb-csi-node-sa
+    namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: smb-csi-node-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: smb-csi-node
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: smb-csi-node
+  template:
+    metadata:
+      labels:
+        app: smb-csi-node
+    spec:
+      serviceAccountName: smb-csi-node-sa
+      containers:
+        - name: smb-csi-node
+          image: mcr.microsoft.com/k8s/csi/smb-csi:latest
+          args:
+            - "--v=5"
+            - "--csi-address=$(ADDRESS)"
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+            - name: mountpoint-dir
+              mountPath: /var/lib/kubelet/plugins/kubernetes.io/csi/pv
+              mountPropagation: Bidirectional
+          securityContext:
+            privileged: true
+      volumes:
+        - name: socket-dir
+          emptyDir: {}
+        - name: mountpoint-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins/kubernetes.io/csi/pv
+            type: DirectoryOrCreate
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: smb-csi-controller
+  namespace: kube-system
+spec:
+  serviceName: smb-csi-controller
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smb-csi-controller
+  template:
+    metadata:
+      labels:
+        app: smb-csi-controller
+    spec:
+      serviceAccountName: smb-csi-controller-sa
+      containers:
+        - name: smb-csi-controller
+          image: mcr.microsoft.com/k8s/csi/smb-csi:latest
+          args:
+            - "--v=5"
+            - "--csi-address=$(ADDRESS)"
+            - "--leader-election"
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+      volumes:
+        - name: socket-dir
+          emptyDir: {}
