@@ -4,7 +4,7 @@ metadata:
   name: smb-storage-class
 provisioner: smb.csi.k8s.io
 parameters:
-  source: //l2.hont.ro/InternalShare
+  source: //l2.hont.ro/ExternalDrive
   csi.storage.k8s.io/provisioner-secret-name: smb-secret
   csi.storage.k8s.io/provisioner-secret-namespace: media
   csi.storage.k8s.io/node-stage-secret-name: smb-secret
