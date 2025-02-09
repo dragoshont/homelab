@@ -1,7 +1,7 @@
 resources:
   - ../../infrastructure/namespaces/media-namespace.yaml
   - ../../infrastructure/smb-csi
-  - ../../infrastructure/storage/kustomization.yaml
+  - ../../infrastructure/storage
   - ../../infrastructure/networking/traefik
   - ../../apps/media/sonarr
   - ../../apps/media/radarr
