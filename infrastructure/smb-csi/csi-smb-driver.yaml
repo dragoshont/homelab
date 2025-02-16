@@ -138,6 +138,7 @@ spec:
           args:
             - "--v=5"
             - "--endpoint=$(ENDPOINT)"
+            - "--nodeid=$(NODE_ID)"
           env:
             - name: ENDPOINT
               value: unix:///csi/csi.sock
