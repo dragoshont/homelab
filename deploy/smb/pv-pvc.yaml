@@ -13,7 +13,7 @@ spec:
     driver: smb.csi.k8s.io
     volumeHandle: smb-pv
     volumeAttributes:
-      source: "//l2.hont.ro/InternalDrive"
+      source: "//192.168.1.201/InternalDrive"
     nodeStageSecretRef:
       name: smbcreds
       namespace: default
@@ -48,7 +48,7 @@ spec:
     driver: smb.csi.k8s.io
     volumeHandle: smb-external-pv
     volumeAttributes:
-      source: "//l2.hont.ro/ExternalDrive"
+      source: "//192.168.1.201/ExternalDrive"
     nodeStageSecretRef:
       name: smbcreds
       namespace: default
