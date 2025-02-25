@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deluge
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deluge
+  template:
+    metadata:
+      labels:
+        app: deluge
+    spec:
+      securityContext:
+        fsGroup: 911
+      containers:
+      - name: deluge
+        image: linuxserver/deluge:latest
+        ports:
+        - containerPort: 8112
+        - containerPort: 58846
+        securityContext:
+          runAsUser: 911
+          runAsGroup: 911
+        volumeMounts:
+        - name: smb-internal-volume
+          mountPath: /downloads
+        - name: smb-config-volume
+          mountPath: /config
+          subPath: deluge
+        - name: smb-external-volume
+          mountPath: /complete
+      volumes:
+      - name: smb-config-volume
+        persistentVolumeClaim:
+          claimName: smb-config-pvc
+      - name: smb-internal-volume
+        persistentVolumeClaim:
+          claimName: smb-internal-pvc
+      - name: smb-external-volume
+        persistentVolumeClaim:
+          claimName: smb-external-pvc

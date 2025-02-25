@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      securityContext:
+        fsGroup: 911
+      containers:
+      - name: sonarr
+        image: linuxserver/sonarr:latest
+        ports:
+        - containerPort: 8989
+        securityContext:
+          runAsUser: 911
+          runAsGroup: 911
+        volumeMounts:
+        - name: smb-internal-volume
+          mountPath: /downloads
+        - name: smb-config-volume
+          mountPath: /config
+          subPath: sonarr
+        - name: smb-external-volume
+          mountPath: /complete
+      volumes:
+      - name: smb-config-volume
+        persistentVolumeClaim:
+          claimName: smb-config-pvc
+      - name: smb-internal-volume
+        persistentVolumeClaim:
+          claimName: smb-internal-pvc
+      - name: smb-external-volume
+        persistentVolumeClaim:
+          claimName: smb-external-pvc
