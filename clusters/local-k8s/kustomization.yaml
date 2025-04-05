@@ -2,8 +2,8 @@ resources:
   - ../../infrastructure/namespaces
   - ../../infrastructure/nfs-provisioner
   - ../../infrastructure/storage
-  - ../../infrastructure/networking/traefik
+  # - ../../infrastructure/networking/traefik
   # - ../../apps/media/sonarr
   # - ../../apps/media/radarr
-  - ../../apps/media/prowlarr
-  # - ../../apps/media/qbittorrent
+  # - ../../apps/media/prowlarr
+  - ../../apps/media/qbittorrent
