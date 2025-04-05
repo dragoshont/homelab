@@ -4,7 +4,6 @@ kind: Kustomization
 metadata:
   name: qbittorrent
 namespace: default
-namePrefix: qbittorrent-
 resources:
   - deployment.yaml
   - service.yaml
