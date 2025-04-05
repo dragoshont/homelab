@@ -21,7 +21,7 @@ spec:
             - containerPort: 32400 # Plex Media Server
           env:
             - name: PLEX_CLAIM
-              value: "" # Optional: Add your Plex claim token here
+              value: "claim-jmnsZBTMnAZy75Szpnry" # Optional: Add your Plex claim token here
             - name: ADVERTISE_IP
               value: "http://192.168.1.201:32400/" # Replace <your-server-ip> with your server's IP
             - name: TZ
