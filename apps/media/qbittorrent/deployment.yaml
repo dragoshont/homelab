@@ -39,4 +39,5 @@ spec:
             type: DirectoryOrCreate
         - name: downloads
           persistentVolumeClaim:
-            claimName: qbittorrent-downloads
+            path: /mnt/internal_drive/config/downloads
+            type: DirectoryOrCreate
