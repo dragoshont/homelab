@@ -22,8 +22,8 @@ spec:
           env:
             - name: PLEX_CLAIM
               value: "" # Optional: Add your Plex claim token here
-            - name: home.hont.ro
-              value: "http://home.hont.ro:32400/" # Replace <your-server-ip> with your server's IP
+            - name: ADVERTISE_IP
+              value: "http://192.168.1.201:32400/" # Replace <your-server-ip> with your server's IP
             - name: TZ
               value: "Europe/Bucharest"
           volumeMounts:
