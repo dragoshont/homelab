@@ -1,6 +1,5 @@
 resources:
   - ../../infrastructure/namespaces
-  - ../../infrastructure/smb-csi
   - ../../infrastructure/nfs-provisioner
   - ../../infrastructure/storage
   - ../../infrastructure/networking/traefik
