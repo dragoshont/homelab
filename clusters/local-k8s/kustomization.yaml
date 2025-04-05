@@ -1,9 +1,13 @@
-resources:
-  - ../../infrastructure/namespaces
-  - ../../infrastructure/nfs-provisioner
-  - ../../infrastructure/storage
-  # - ../../infrastructure/networking/traefik
-  # - ../../apps/media/sonarr
-  # - ../../apps/media/radarr
-  # - ../../apps/media/prowlarr
-  - ../../apps/media/qbittorrent
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: qbittorrent
+  namespace: flux-system
+spec:
+  targetNamespace: media
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  path: ./apps/media/qbittorrent
+  prune: true
+  interval: 10m
