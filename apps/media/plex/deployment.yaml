@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  labels:
+    app: plex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      containers:
+        - name: plex
+          image: plexinc/pms-docker:latest
+          ports:
+            - containerPort: 32400 # Plex Media Server
+          env:
+            - name: PLEX_CLAIM
+              value: "" # Optional: Add your Plex claim token here
+            - name: home.hont.ro
+              value: "http://home.hont.ro:32400/" # Replace <your-server-ip> with your server's IP
+            - name: TZ
+              value: "Europe/Bucharest"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: transcode
+              mountPath: /transcode
+            - name: media
+              mountPath: /data
+      volumes:
+        - name: config
+          hostPath:
+            path: /mnt/internal_drive/config/plex
+            type: DirectoryOrCreate
+        - name: transcode
+          hostPath:
+            path: /mnt/internal_drive/transcode
+            type: DirectoryOrCreate
+        - name: media
+          hostPath:
+            path: /media/external_drive/complete
+            type: DirectoryOrCreate
