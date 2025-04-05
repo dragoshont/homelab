@@ -20,4 +20,6 @@ spec:
     nfs:
       server: nas.hont.ro
       path: /complete
-      readOnly: false
+    nfs:
+      server: home.hont.ro
+      path: /mnt/e/internalshare

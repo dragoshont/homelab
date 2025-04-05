@@ -26,15 +26,15 @@ spec:
         volumeMounts:
         - name: smb-internal-volume
           mountPath: /downloads
-        - name: smb-config-volume
+        - name: nfs-config-volume
           mountPath: /config
-          subPath: sonarr
         - name: smb-external-volume
           mountPath: /complete
       volumes:
-      - name: smb-config-volume
-        persistentVolumeClaim:
-          claimName: smb-config-pvc
+      - name: nfs-config-volume
+        nfs:
+          server: home.hont.ro
+          path: /mnt/e/internalshare/config/sonarr
       - name: smb-internal-volume
         persistentVolumeClaim:
           claimName: smb-internal-pvc
