@@ -33,6 +33,11 @@ spec:
               mountPath: /transcode
             - name: media
               mountPath: /media
+            - name: dri
+              mountPath: /dev/dri # Add this to mount the GPU device
+          securityContext:
+            privileged: true # Required for device access
+
       volumes:
         - name: config
           hostPath:
