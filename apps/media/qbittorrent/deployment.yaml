@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: qbittorrent
-  namespace: media
+  labels:
+    app: qbittorrent
 spec:
   replicas: 1
   selector:
@@ -17,16 +18,25 @@ spec:
         - name: qbittorrent
           image: linuxserver/qbittorrent:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 8080 # Web UI
+            - containerPort: 6881 # Torrent
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Bucharest"
           volumeMounts:
-            - mountPath: "/config"
-              name: config
-            - mountPath: "/data/nfs"
-              name: nfs-storage
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
       volumes:
         - name: config
-          emptyDir: {}
-        - name: nfs-storage
+          hostPath:
+            path: /mnt/internal_drive/config/qbittorrent
+            type: DirectoryOrCreate
+        - name: downloads
           persistentVolumeClaim:
-            claimName: nfs-pvc
-
+            claimName: qbittorrent-downloads

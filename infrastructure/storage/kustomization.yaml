@@ -1,5 +1,0 @@
-resources:
-  - nfs-storage-class.yaml
-  - pv-pvc.yaml
-  - nfs-pv.yaml
-  - nfs-pvc.yaml
