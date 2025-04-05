@@ -38,6 +38,6 @@ spec:
             path: /mnt/internal_drive/config/qbittorrent
             type: DirectoryOrCreate
         - name: downloads
-          persistentVolumeClaim:
+          hostPath:
             path: /mnt/internal_drive/config/downloads
             type: DirectoryOrCreate
