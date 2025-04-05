@@ -32,7 +32,7 @@ spec:
             - name: transcode
               mountPath: /transcode
             - name: media
-              mountPath: /data
+              mountPath: /media
       volumes:
         - name: config
           hostPath:
