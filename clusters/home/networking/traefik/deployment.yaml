@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+  labels:
+    app: traefik
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik
+  template:
+    metadata:
+      labels:
+        app: traefik
+      annotations:
+        kubernetes.io/ingress.class: "traefik"
+        traefik.ingress.kubernetes.io/router.entrypoints: "web,websecure"
+    spec:
+      containers:
+        - name: traefik
+          image: traefik:v2.5
+          args:
+            - "--api.insecure=true"
+            - "--providers.kubernetesingress=true"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.websecure.address=:443"
+            - "--certificatesresolvers.le.acme.email=your-email@example.com"
+            - "--certificatesresolvers.le.acme.storage=/acme.json"
+            - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+          ports:
+            - name: web
+              containerPort: 80
+            - name: websecure
+              containerPort: 443
+          volumeMounts:
+            - name: acme-storage
+              mountPath: /acme.json
+              subPath: acme.json
+      volumes:
+        - name: acme-storage
+          emptyDir: {}

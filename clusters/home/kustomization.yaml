@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ../../apps/media/qbittorrent/
   - ../../apps/media/plex/
+  - networking/traefik/
