@@ -1,3 +1,4 @@
+# filepath: c:\repos\homelab\clusters\home\networking\traefik\ingress-qbittorrent.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -5,7 +6,7 @@ metadata:
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "traefik"
-    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging-traefik" # Updated name
 spec:
   tls:
     - hosts:
