@@ -51,3 +51,7 @@ spec:
           hostPath:
             path: /media/external_drive/complete
             type: DirectoryOrCreate
+        - name: dri
+          hostPath:
+            path: /dev/dri
+            type: Directory # Add this volume definition for GPU mapping
