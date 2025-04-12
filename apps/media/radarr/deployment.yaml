@@ -4,7 +4,7 @@ metadata:
   name: radarr
   namespace: default
 spec:
-  replicas: 2 # Updated to allow multiple pods
+  replicas: 1 # Updated to allow multiple pods
   selector:
     matchLabels:
       app: radarr
