@@ -21,8 +21,6 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: complete
-              mountPath: /downloads
       volumes:
         - name: config
           persistentVolumeClaim:
