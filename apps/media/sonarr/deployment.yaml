@@ -1,25 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qbittorrent
+  name: sonarr
   labels:
-    app: qbittorrent
+    app: sonarr
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: qbittorrent
+      app: sonarr
   template:
     metadata:
       labels:
-        app: qbittorrent
+        app: sonarr
     spec:
       containers:
-        - name: qbittorrent
-          image: linuxserver/qbittorrent:latest
+        - name: sonarr
+          image: linuxserver/sonarr:latest
           ports:
-            - containerPort: 8080 # Web UI
-            - containerPort: 6881 # Torrent
+            - containerPort: 8989 # Web UI
           env:
             - name: PUID
               value: "1000"
@@ -35,7 +34,7 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /mnt/internal_drive/config/qbittorrent
+            path: /mnt/internal_drive/config/sonarr
             type: DirectoryOrCreate
         - name: downloads
           hostPath:
