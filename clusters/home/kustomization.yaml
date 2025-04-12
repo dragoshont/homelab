@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ../../apps/media/qbittorrent/
   - ../../apps/media/sonarr/
+  - ../../apps/media/radarr/
   - ../../apps/media/plex/
   - networking/traefik/
   - storage/
