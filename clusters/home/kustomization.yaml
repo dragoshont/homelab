@@ -6,3 +6,4 @@ resources:
   - ../../apps/media/sonarr/
   - ../../apps/media/plex/
   - networking/traefik/
+  - storage/
