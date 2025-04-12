@@ -5,6 +5,7 @@ resources:
   - ../../apps/media/qbittorrent/
   - ../../apps/media/sonarr/
   - ../../apps/media/radarr/
+  - ../../apps/media/prowlarr/
   - ../../apps/media/plex/
   - networking/traefik/
   - storage/
