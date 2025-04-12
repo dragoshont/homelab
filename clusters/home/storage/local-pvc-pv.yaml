@@ -41,7 +41,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /mnt/internal_drive/complete
+    path: /media/external_drive/complete
     type: DirectoryOrCreate
 
 ---
