@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: radarr
-          image: radarr/radarr:latest
+          image: linuxserver/radarr:latest
           ports:
             - containerPort: 7878
           # env:
