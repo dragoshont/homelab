@@ -27,6 +27,3 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: config-pvc
-        - name: complete
-          persistentVolumeClaim:
-            claimName: complete-pvc
