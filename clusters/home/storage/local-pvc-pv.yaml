@@ -26,6 +26,9 @@ spec:
   resources:
     requests:
       storage: 10Gi
+  selector:
+    matchLabels:
+      type: config
 
 ---
 apiVersion: v1
@@ -56,3 +59,6 @@ spec:
   resources:
     requests:
       storage: 50Gi
+  selector:
+    matchLabels:
+      type: complete
