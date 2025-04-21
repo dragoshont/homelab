@@ -12,8 +12,10 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 30833
     - name: websecure
       protocol: TCP
       port: 443
       targetPort: 443
+      nodePort: 30795
   type: LoadBalancer
