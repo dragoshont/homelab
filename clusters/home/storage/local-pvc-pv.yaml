@@ -40,6 +40,7 @@ metadata:
   labels:
     type: complete
 spec:
+  storageClassName: manual
   capacity:
     storage: 50Gi
   accessModes:
@@ -56,6 +57,7 @@ metadata:
   name: complete-pvc
   namespace: default
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:

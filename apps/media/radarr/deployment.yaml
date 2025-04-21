@@ -29,6 +29,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+              subPath: radarr
             - name: complete
               mountPath: /complete
       volumes:
