@@ -5,6 +5,7 @@ metadata:
   labels:
     type: config
 spec:
+  storageClassName: manual 
   capacity:
     storage: 10Gi
   accessModes:
@@ -21,6 +22,7 @@ metadata:
   name: config-pvc
   namespace: default
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
