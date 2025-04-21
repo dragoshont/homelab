@@ -10,5 +10,5 @@ spec:
     - protocol: TCP
       port: 7878
       targetPort: 7878
-      nodePort: 7878 # Optional: Specify a fixed port (range: 30000-32767)
+      nodePort: 30078 # Optional: Specify a fixed port (range: 30000-32767)
   type: NodePort

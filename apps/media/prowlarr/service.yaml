@@ -10,5 +10,5 @@ spec:
     - protocol: TCP
       port: 9696
       targetPort: 9696
-      nodePort: 9696 # Optional: Specify a fixed port (range: 30000-32767)
+      nodePort: 30096 # Optional: Specify a fixed port (range: 30000-32767)
   type: NodePort
