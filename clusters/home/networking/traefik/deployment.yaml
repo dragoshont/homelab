@@ -33,9 +33,9 @@ spec:
             - "--providers.kubernetesingress=true"
             - "--entrypoints.web.address=:80"
             - "--entrypoints.websecure.address=:443"
-            - "--certificatesresolvers.le.acme.email=cert@hont.ro"
-            - "--certificatesresolvers.le.acme.storage=/acme.json"
-            - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+            - "--certificatesresolvers.le.email=cert@hont.ro"
+            - "--certificatesresolvers.le.storage=/acme.json"
+            - "--certificatesresolvers.le.httpchallenge.entrypoint=web"
           ports:
             - name: web
               containerPort: 80
