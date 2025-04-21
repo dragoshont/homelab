@@ -11,4 +11,4 @@ spec:
       port: 9696
       targetPort: 9696
       nodePort: 30096
-  type: ClusterIP
+  type: NodePort
