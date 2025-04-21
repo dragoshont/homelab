@@ -8,10 +8,10 @@ metadata:
     kubernetes.io/ingress.class: "traefik"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
-  tls:
-    - hosts:
-        - home.hont.ro
-      secretName: home-hont-ro-tls
+  # tls:
+  #   - hosts:
+  #       - home.hont.ro
+  #     secretName: home-hont-ro-tls
   rules:
     - host: home.hont.ro
       http:
