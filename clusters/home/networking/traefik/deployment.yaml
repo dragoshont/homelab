@@ -39,4 +39,5 @@ spec:
               subPath: acme.json
       volumes:
         - name: acme-storage
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: config-pvc
