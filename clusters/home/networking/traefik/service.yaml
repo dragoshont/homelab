@@ -1,0 +1,19 @@
+# filepath: c:\repos\homelab\clusters\home\networking\traefik\service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik
+  namespace: default
+spec:
+  selector:
+    app: traefik
+  ports:
+    - name: web
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: websecure
+      protocol: TCP
+      port: 443
+      targetPort: 443
+  type: LoadBalancer
