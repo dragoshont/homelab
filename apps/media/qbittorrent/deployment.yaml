@@ -32,6 +32,8 @@ spec:
               mountPath: /config
             - name: downloads
               mountPath: /downloads
+            - name: complete
+              mountPath: /complete
       volumes:
         - name: config
           hostPath:
