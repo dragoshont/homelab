@@ -17,6 +17,14 @@ spec:
         kubernetes.io/ingress.class: "traefik"
         traefik.ingress.kubernetes.io/router.entrypoints: "web,websecure"
     spec:
+      initContainers:
+        - name: fix-acme-perms
+          image: busybox
+          command: ["sh", "-c", "touch /acme.json && chmod 600 /acme.json"]
+          volumeMounts:
+            - name: acme-storage
+              mountPath: /acme.json
+              subPath: acme.json
       containers:
         - name: traefik
           image: traefik:v2.5
