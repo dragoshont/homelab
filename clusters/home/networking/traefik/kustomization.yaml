@@ -6,5 +6,7 @@ resources:
   - clusterissuer.yaml
   - ingress-qbittorrent.yaml
   - ingress-prowlarr.yaml
+  - middleware-qbittorrent.yaml
+  - middleware-prowlarr.yaml
 namespace: default
 nameSuffix: -traefik

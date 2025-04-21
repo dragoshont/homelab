@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: prowlarr-stripprefix
+  namespace: default
+spec:
+  stripPrefix:
+    prefixes:
+      - /prowlarr

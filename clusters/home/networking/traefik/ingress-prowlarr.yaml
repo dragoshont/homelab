@@ -5,14 +5,9 @@ metadata:
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "traefik"
-    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
     traefik.ingress.kubernetes.io/router.tls.certresolver: le
-
+    traefik.ingress.kubernetes.io/router.middlewares: default-prowlarr-stripprefix
 spec:
-  # tls:
-  #   - hosts:
-  #       - home.hont.ro
-  #     secretName: home-hont-ro-tls
   rules:
     - host: home.hont.ro
       http:
