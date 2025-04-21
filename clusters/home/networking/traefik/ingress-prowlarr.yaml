@@ -1,8 +1,7 @@
-# filepath: c:\repos\homelab\clusters\home\networking\traefik\ingress-qbittorrent.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: qbittorrent
+  name: prowlarr
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "traefik"
@@ -16,10 +15,10 @@ spec:
     - host: home.hont.ro
       http:
         paths:
-          - path: /qbittorrent
+          - path: /prowlarr
             pathType: Prefix
             backend:
               service:
-                name: qbittorrent
+                name: prowlarr
                 port:
-                  number: 8080
+                  number: 9696
