@@ -29,18 +29,13 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: downloads
-              mountPath: /downloads
+              subPath: radarr
+            - name: complete
+              mountPath: /complete
       volumes:
         - name: config
-          hostPath:
-            path: /mnt/internal_drive/config/sonarr
-            type: DirectoryOrCreate
-        - name: downloads
-          hostPath:
-            path: /mnt/internal_drive/downloads
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: config-pvc
         - name: complete
-          hostPath:
-            path: /media/external_drive/complete
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: complete-pvc

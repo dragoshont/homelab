@@ -66,3 +66,37 @@ spec:
   selector:
     matchLabels:
       type: complete
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: downloads-pv
+  labels:
+    type: downloads
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/internal_drive/downloads
+    type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: downloads-pvc
+  namespace: default
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+  selector:
+    matchLabels:
+      type: downloads

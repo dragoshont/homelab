@@ -36,14 +36,11 @@ spec:
               mountPath: /complete
       volumes:
         - name: config
-          hostPath:
-            path: /mnt/internal_drive/config/qbittorrent
-            type: DirectoryOrCreate
-        - name: downloads
-          hostPath:
-            path: /mnt/internal_drive/downloads
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: config-pvc
         - name: complete
-          hostPath:
-            path: /media/external_drive/complete
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: complete-pvc
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads-pvc
