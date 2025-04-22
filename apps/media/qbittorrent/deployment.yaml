@@ -30,6 +30,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+              subPath: qbittorrent
             - name: downloads
               mountPath: /downloads
             - name: complete
