@@ -29,7 +29,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-              subPath: radarr
+              subPath: sonarr
             - name: complete
               mountPath: /complete
       volumes:
