@@ -41,5 +41,6 @@ spec:
         - name: complete
           persistentVolumeClaim:
             claimName: complete-pvc
+        - name: downloads
           persistentVolumeClaim:
             claimName: downloads-pvc
