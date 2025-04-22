@@ -32,6 +32,8 @@ spec:
               subPath: radarr
             - name: complete
               mountPath: /complete
+            - name: downloads
+              mountPath: /downloads
       volumes:
         - name: config
           persistentVolumeClaim:
@@ -39,3 +41,6 @@ spec:
         - name: complete
           persistentVolumeClaim:
             claimName: complete-pvc
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads-pvc
