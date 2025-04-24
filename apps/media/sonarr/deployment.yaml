@@ -26,6 +26,12 @@ spec:
               value: "1000"
             - name: TZ
               value: "Europe/Bucharest"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8989
+            initialDelaySeconds: 30
+            periodSeconds: 10
           volumeMounts:
             - name: config
               mountPath: /config

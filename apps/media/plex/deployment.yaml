@@ -37,6 +37,12 @@ spec:
               mountPath: /dev/dri # Add this to mount the GPU device
           securityContext:
             privileged: true # Required for device access
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 32400
+            initialDelaySeconds: 30
+            periodSeconds: 10
 
       volumes:
         - name: config

@@ -18,6 +18,12 @@ spec:
           image: linuxserver/prowlarr:latest
           ports:
             - containerPort: 9696
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9696
+            initialDelaySeconds: 30
+            periodSeconds: 10
           volumeMounts:
             - name: config
               mountPath: /config

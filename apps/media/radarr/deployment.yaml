@@ -18,14 +18,12 @@ spec:
           image: linuxserver/radarr:latest
           ports:
             - containerPort: 7878
-          # env:
-          #   - name: RADARR_URL
-          #     value: "http://localhost:7878"
-          #   - name: RADARR_API_KEY
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: radarr-secret
-          #         key: api-key
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 7878
+            initialDelaySeconds: 30
+            periodSeconds: 10
           volumeMounts:
             - name: config
               mountPath: /config
@@ -34,6 +32,7 @@ spec:
               mountPath: /complete
             - name: downloads
               mountPath: /downloads
+      restartPolicy: Always
       volumes:
         - name: config
           persistentVolumeClaim:
