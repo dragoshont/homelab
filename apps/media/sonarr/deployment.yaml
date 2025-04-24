@@ -4,6 +4,8 @@ metadata:
   name: sonarr
   labels:
     app: sonarr
+  annotations:
+    fluxcd.io/automated: "true" # Enable automated image updates
 spec:
   replicas: 1
   selector:

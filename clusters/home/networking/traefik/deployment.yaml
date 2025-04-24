@@ -4,6 +4,8 @@ metadata:
   name: traefik
   labels:
     app: traefik
+  annotations:
+    fluxcd.io/automated: "true" # Enable automated image updates
 spec:
   replicas: 1
   selector:

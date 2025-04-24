@@ -4,6 +4,8 @@ metadata:
   name: qbittorrent
   labels:
     app: qbittorrent
+  annotations:
+    fluxcd.io/automated: "true" # Enable automated image updates
 spec:
   replicas: 1
   selector:
