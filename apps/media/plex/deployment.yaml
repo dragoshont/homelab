@@ -39,12 +39,14 @@ spec:
               mountPath: /dev/dri # Add this to mount the GPU device
           securityContext:
             privileged: true # Required for device access
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 32400
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 32400
+              initialDelaySeconds: 60  # Allow Plex enough time to start
+              periodSeconds: 30        # Check every 30 seconds
+              timeoutSeconds: 5        # Timeout after 5 seconds
+              failureThreshold: 3      # Restart after 3 consecutive failures
 
       volumes:
         - name: config
