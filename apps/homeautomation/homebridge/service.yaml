@@ -7,9 +7,11 @@ spec:
   selector:
     app: homebridge
   ports:
-    - protocol: TCP
+    - name: http  # <-- Add a unique name for this port
+      protocol: TCP
       port: 80
       targetPort: 8581
-    - protocol: TCP
+    - name: secondary  # <-- Add a unique name for this port
+      protocol: TCP
       port: 8582
       targetPort: 8582
