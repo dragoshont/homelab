@@ -15,11 +15,10 @@ spec:
       labels:
         app: homebridge
     spec:
+      hostNetwork: true  # <-- Host network enabled
       containers:
         - name: homebridge
           image: oznu/homebridge:latest
-          ports:
-            - containerPort: 8581
           livenessProbe:
             httpGet:
               path: /

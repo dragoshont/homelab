@@ -1,22 +1,15 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
   name: homebridge
   namespace: default
 spec:
-  replicas: 1
   selector:
-    matchLabels:
-      app: homebridge
-  template:
-    metadata:
-      labels:
-        app: homebridge
-    spec:
-      hostNetwork: true
-      containers:
-        - name: homebridge
-          image: homebridge/homebridge:latest
-          ports:
-            - containerPort: 8581
-            - containerPort: 8582
+    app: homebridge
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8581
+    - protocol: TCP
+      port: 8582
+      targetPort: 8582
