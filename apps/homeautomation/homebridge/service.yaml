@@ -7,11 +7,13 @@ spec:
   selector:
     app: homebridge
   ports:
-    - protocol: TCP
+    - name: http-ui
+      protocol: TCP
       port: 8581
       targetPort: 8581
       nodePort: 30081
-    - protocol: TCP
+    - name: http-api
+      protocol: TCP
       port: 8582
       targetPort: 8582
       nodePort: 30082
