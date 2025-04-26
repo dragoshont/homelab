@@ -7,5 +7,6 @@ resources:
   - ../../apps/media/radarr/
   - ../../apps/media/prowlarr/
   - ../../apps/media/plex/
-  # - networking/traefik/
+  - ../../apps/homeautomation/scrypted/
+  - ../../apps/homeautomation/homebridge/
   - storage/

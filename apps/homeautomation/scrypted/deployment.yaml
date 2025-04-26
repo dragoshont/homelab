@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scrypted
+  namespace: default
+  annotations:
+    fluxcd.io/automated: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scrypted
+  template:
+    metadata:
+      labels:
+        app: scrypted
+    spec:
+      containers:
+        - name: scrypted
+          image: koush/scrypted:latest
+          ports:
+            - containerPort: 11080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 11080
+            initialDelaySeconds: 120
+            periodSeconds: 60
+            failureThreshold: 3
+          volumeMounts:
+            - name: config
+              mountPath: /server/volume
+              subPath: scrypted
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: config-pvc

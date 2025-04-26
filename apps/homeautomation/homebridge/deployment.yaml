@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homebridge
+  namespace: default
+  annotations:
+    fluxcd.io/automated: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homebridge
+  template:
+    metadata:
+      labels:
+        app: homebridge
+    spec:
+      containers:
+        - name: homebridge
+          image: oznu/homebridge:latest
+          ports:
+            - containerPort: 8581
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8581
+            initialDelaySeconds: 120
+            periodSeconds: 60
+            failureThreshold: 3
+          volumeMounts:
+            - name: config
+              mountPath: /homebridge
+              subPath: homebridge
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: config-pvc
