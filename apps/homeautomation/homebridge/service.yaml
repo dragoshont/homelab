@@ -11,4 +11,8 @@ spec:
       port: 8581
       targetPort: 8581
       nodePort: 30081
+    - protocol: TCP
+      port: 8582
+      targetPort: 8582
+      nodePort: 30082
   type: NodePort
