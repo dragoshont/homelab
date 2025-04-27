@@ -7,7 +7,6 @@ spec:
   selector:
     app: nitrox-subnautica
   ports:
-  ports:
     - protocol: UDP
       port: 11000
       targetPort: 11000
