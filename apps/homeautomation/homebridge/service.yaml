@@ -7,11 +7,11 @@ spec:
   selector:
     app: homebridge
   ports:
-    - name: http  # <-- Add a unique name for this port
+    - name: http  # <-- hb ui
       protocol: TCP
       port: 80
       targetPort: 8581
-    - name: secondary  # <-- Add a unique name for this port
+    - name: secondary  # <-- Samsung OAuth
       protocol: TCP
       port: 8582
       targetPort: 8582

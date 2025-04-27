@@ -15,6 +15,7 @@ spec:
       labels:
         app: scrypted
     spec:
+      hostNetwork: true
       containers:
         - name: scrypted
           image: koush/scrypted:latest

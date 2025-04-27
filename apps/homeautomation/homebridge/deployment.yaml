@@ -15,7 +15,7 @@ spec:
       labels:
         app: homebridge
     spec:
-      hostNetwork: true  # <-- Host network enabled
+      hostNetwork: true
       containers:
         - name: homebridge
           image: oznu/homebridge:latest
