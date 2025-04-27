@@ -7,6 +7,11 @@ spec:
   selector:
     app: nitrox-subnautica
   ports:
-    - protocol: UDP
+  ports:
+    - protocol: TCP
       port: 11000
       targetPort: 11000
+      nodePort: 30011 # Optional: Specify a fixed port (range: 30000-32767)
+  type: NodePort
+
+  
