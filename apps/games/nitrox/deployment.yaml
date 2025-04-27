@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nitrox-subnautica
+  namespace: default
+  annotations:
+    fluxcd.io/automated: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nitrox-subnautica
+  template:
+    metadata:
+      labels:
+        app: nitrox-subnautica
+    spec:
+      containers:
+        - name: nitrox-server
+          image: docker.io/fuzzystatic/nitrox-server:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Etc/UTC"
+            - name: SUBNAUTICA_INSTALLATION_PATH
+              value: /subnautica
+          ports:
+            - containerPort: 11000
+              protocol: UDP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+            - name: subnautica-volume
+              mountPath: /subnautica
+      volumes:
+        - name: config-volume
+          hostPath:
+            path: /mnt/internal_drive/games/nitrox/Nitrox_1.7.1.0/
+        - name: subnautica-volume
+          hostPath:
+            path: /mnt/internal_drive/games/subnautica/Subnautica.v02.07.2024/
