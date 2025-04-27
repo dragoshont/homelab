@@ -9,4 +9,6 @@ resources:
   - ../../apps/media/plex/
   - ../../apps/homeautomation/scrypted/
   - ../../apps/homeautomation/homebridge/
+  - ../../apps/games/nitrox/
+
   - storage/
