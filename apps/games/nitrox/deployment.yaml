@@ -41,4 +41,4 @@ spec:
             path: /mnt/internal_drive/games/nitrox/Nitrox_1.7.1.0/
         - name: subnautica-volume
           hostPath:
-            path: /mnt/internal_drive/games/subnautica/Subnautica/
+            path: /mnt/internal_drive/games/subnautica/
