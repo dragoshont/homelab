@@ -1,35 +1,33 @@
 #!/bin/bash
 
-# Variables
-BACKUP_DIR="/media/nas/games/nitrox-saves/backup_$(date +'%Y%m%d_%H%M%S')"
-WORLD_FOLDER="/mnt/internal_drive/games/nitrox/Nitrox_1.7.1.0/world"
-LOG_FILE="/home/dragos/homelab/backup_scripts/backup_log.txt"
+# Define paths
+world_folder="/mnt/internal_drive/games/subnautica/world"
+backup_folder="/media/nas/games/nitrox-saves"
+backup_timestamp=$(date +"%Y%m%d_%H%M%S")
+backup_path="$backup_folder/backup_${backup_timestamp}"
 
-# Create the backup directory
-mkdir -p "$BACKUP_DIR"
+# Define the hash file to track the last backup hash (stored on the NAS)
+hash_file="$backup_folder/last_backup_hash.txt"
 
-# Start the log
-echo "Backup started at $(date)" >> "$LOG_FILE"
+# Check if world folder has changed since last backup
+last_hash=$(cat "$hash_file" 2>/dev/null)
 
-# Stop the Nitrox pod
-echo "Stopping Nitrox pod..." >> "$LOG_FILE"
-kubectl -n default scale deployment/nitrox-subnautica --replicas=0
+# Generate a new hash for the world folder (using md5sum for simplicity)
+new_hash=$(find "$world_folder" -type f -exec md5sum {} + | md5sum | awk '{ print $1 }')
 
-# Check if the world folder has changed (by comparing the timestamp of the last modification)
-if find "$WORLD_FOLDER" -type f -newermt "$(date +'%Y%m%d')"; then
-    echo "Changes detected in world folder, proceeding with backup..." >> "$LOG_FILE"
+if [ "$last_hash" != "$new_hash" ]; then
+    echo "Changes detected, performing backup..."
 
-    # Perform the backup
-    rsync -avh --no-group --progress "$WORLD_FOLDER" "$BACKUP_DIR" >> "$LOG_FILE" 2>&1
+    # Create the backup folder
+    mkdir -p "$backup_path"
 
-    echo "Backup completed at $(date)" >> "$LOG_FILE"
+    # Perform the backup (you can modify the rsync command or use another method)
+    rsync -av --exclude='*.tmp' --exclude='*.log' "$world_folder" "$backup_path"
+
+    # Update the last backup hash on the NAS
+    echo "$new_hash" > "$hash_file"
+
+    echo "Backup completed at $backup_path"
 else
-    echo "No changes detected in the world folder, skipping backup..." >> "$LOG_FILE"
+    echo "No changes detected, skipping backup."
 fi
-
-# Start the Nitrox pod again
-echo "Starting Nitrox pod..." >> "$LOG_FILE"
-kubectl -n default scale deployment/nitrox-subnautica --replicas=1
-
-# End of backup process
-echo "Backup process finished at $(date)" >> "$LOG_FILE"
