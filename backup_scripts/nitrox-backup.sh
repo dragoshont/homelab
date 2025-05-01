@@ -9,8 +9,14 @@ backup_path="$backup_folder/backup_${backup_timestamp}"
 # Define the hash file to track the last backup hash (stored on the NAS)
 hash_file="$backup_folder/last_backup_hash.txt"
 
-# Check if world folder has changed since last backup
-last_hash=$(cat "$hash_file" 2>/dev/null)
+# Check if the hash file exists; if not, create it and set last_hash to an empty string
+if [ ! -f "$hash_file" ]; then
+    echo "Hash file not found. Assuming changes and creating hash file..."
+    touch "$hash_file"
+    last_hash=""
+else
+    last_hash=$(cat "$hash_file" 2>/dev/null)
+fi
 
 # Generate a new hash for the world folder (using md5sum for simplicity)
 new_hash=$(find "$world_folder" -type f -exec md5sum {} + | md5sum | awk '{ print $1 }')
