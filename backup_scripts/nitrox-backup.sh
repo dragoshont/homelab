@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define paths
-world_folder="/mnt/internal_drive/games/subnautica/world"
+world_folder="/mnt/internal_drive/games/nitrox/Nitrox_1.7.1.0/world"
 backup_folder="/media/nas/games/nitrox-saves"
 backup_timestamp=$(date +"%Y%m%d_%H%M%S")
 backup_path="$backup_folder/backup_${backup_timestamp}"
