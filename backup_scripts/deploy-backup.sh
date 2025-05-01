@@ -15,8 +15,17 @@ if [ ! -d "$backup_path" ]; then
     exit 1
 fi
 
+# Calculate the full path of the nitrox-backup script based on the location of this script
+script_dir="$(dirname "$(realpath "$0")")"
+nitrox_backup_script="$script_dir/nitrox-backup.sh"
+
 # Run the nitrox-backup script before proceeding
-nitrox-backup.sh
+if [ -x "$nitrox_backup_script" ]; then
+    "$nitrox_backup_script"
+else
+    echo "Error: nitrox-backup.sh not found or not executable in $script_dir"
+    exit 1
+fi
 
 # Suspend the deployment
 kubectl scale deployment nitrox-subnautica --replicas=0
