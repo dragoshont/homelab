@@ -15,6 +15,9 @@ if [ ! -d "$backup_path" ]; then
     exit 1
 fi
 
+# Run the nitrox-backup script before proceeding
+/home/dragos/homelab/backup_scripts/nitrox-backup.sh
+
 # Suspend the deployment
 kubectl scale deployment nitrox-subnautica --replicas=0
 
