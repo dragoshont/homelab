@@ -22,7 +22,7 @@ if [ "$last_hash" != "$new_hash" ]; then
     mkdir -p "$backup_path"
 
     # Perform the backup (you can modify the rsync command or use another method)
-    rsync -av --exclude='*.tmp' --exclude='*.log' "$world_folder" "$backup_path"
+    rsync -av --no-group --exclude='*.tmp' --exclude='*.log' "$world_folder" "$backup_path"
 
     # Update the last backup hash on the NAS
     echo "$new_hash" > "$hash_file"
