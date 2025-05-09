@@ -13,8 +13,15 @@ spec:
   type: LoadBalancer
   ports:
     - name: amp-ui
+      protocol: TCP
       port: 80
       targetPort: 8080
+      nodePort: 30080 # Expose AMP UI on a fixed NodePort
     - name: mc-server
+      protocol: TCP
       port: 25565
       targetPort: 25565
+      nodePort: 30065 # Expose Minecraft server on a fixed NodePort
+  type: NodePort
+  
+ 
