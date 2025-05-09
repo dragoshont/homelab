@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: minecraft
+  namespace: default
   labels:
     app.kubernetes.io/name: minecraft
     app.kubernetes.io/instance: amp-forge
