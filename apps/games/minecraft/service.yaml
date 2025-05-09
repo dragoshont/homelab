@@ -16,7 +16,7 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8080
-      nodePort: 30080 # Expose AMP UI on a fixed NodePort
+      nodePort: 30088 # Expose AMP UI on a fixed NodePort
     - name: mc-server
       protocol: TCP
       port: 25565
