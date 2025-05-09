@@ -10,5 +10,6 @@ resources:
   - ../../apps/homeautomation/scrypted/
   - ../../apps/homeautomation/homebridge/
   - ../../apps/games/nitrox/
+  - ../../apps/games/minecraft/
 
   - storage/

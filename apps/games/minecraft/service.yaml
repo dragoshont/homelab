@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft
+spec:
+  selector:
+    app.kubernetes.io/name: minecraft
+    app.kubernetes.io/instance: amp-forge
+  type: LoadBalancer
+  ports:
+    - name: amp-ui
+      port: 80
+      targetPort: 8080
+    - name: mc-server
+      port: 25565
+      targetPort: 25565

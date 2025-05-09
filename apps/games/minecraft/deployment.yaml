@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+  labels:
+    app.kubernetes.io/name: minecraft
+    app.kubernetes.io/instance: amp-forge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: minecraft
+      app.kubernetes.io/instance: amp-forge
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: minecraft
+        app.kubernetes.io/instance: amp-forge
+    spec:
+      containers:
+        - name: amp
+          image: cubecoders/ampinstmgr:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TZ
+              value: Europe/Bucharest
+            - name: AMP_LICENSE
+              valueFrom:
+                secretKeyRef:
+                  name: amp-license
+                  key: license
+          volumeMounts:
+            - mountPath: /home/amp/.ampdata
+              name: config-volume
+              subPath: amp
+
+        - name: forge
+          image: itzg/minecraft-server
+          ports:
+            - containerPort: 25565
+          env:
+            - name: EULA
+              value: "TRUE"
+            - name: TYPE
+              value: "FORGE"
+            - name: VERSION
+              value: "1.20.1"
+            - name: MEMORY
+              value: "4G"
+          volumeMounts:
+            - mountPath: /data
+              name: config-volume
+              subPath: forge
+
+      volumes:
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: config-pvc
