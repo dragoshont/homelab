@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: amp
-          image: cubecoders/ampinstmgr:latest
+          image: cubecoders/ampbase:latest
           ports:
             - containerPort: 8080
           env:
