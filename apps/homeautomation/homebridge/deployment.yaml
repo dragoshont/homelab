@@ -18,7 +18,7 @@ spec:
       hostNetwork: true
       containers:
         - name: homebridge
-          image: oznu/homebridge:latest
+          image: homebridge/homebridge:latest
           livenessProbe:
             httpGet:
               path: /
