@@ -18,6 +18,9 @@ spec:
       containers:
         - name: prowlarr
           image: linuxserver/prowlarr:latest
+          env:
+            - name: TZ
+              value: "Europe/Bucharest"
           ports:
             - containerPort: 9696
           livenessProbe:

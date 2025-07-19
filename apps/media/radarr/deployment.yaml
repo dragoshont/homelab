@@ -18,6 +18,9 @@ spec:
       containers:
         - name: radarr
           image: linuxserver/radarr:latest
+          env:
+            - name: TZ
+              value: "Europe/Bucharest"
           ports:
             - containerPort: 7878
           livenessProbe:

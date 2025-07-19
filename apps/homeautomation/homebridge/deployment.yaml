@@ -19,6 +19,9 @@ spec:
       containers:
         - name: homebridge
           image: homebridge/homebridge:latest
+          env:
+            - name: TZ
+              value: "Europe/Bucharest"
           livenessProbe:
             httpGet:
               path: /
