@@ -1,0 +1,68 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: qbittorrent
+  namespace: flux-system
+spec:
+  image: docker.io/linuxserver/qbittorrent
+  interval: 1m
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: sonarr
+  namespace: flux-system
+spec:
+  image: docker.io/linuxserver/sonarr
+  interval: 1m
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: radarr
+  namespace: flux-system
+spec:
+  image: docker.io/linuxserver/radarr
+  interval: 1m
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: prowlarr
+  namespace: flux-system
+spec:
+  image: docker.io/linuxserver/prowlarr
+  interval: 1m
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: plex
+  namespace: flux-system
+spec:
+  image: docker.io/linuxserver/plex
+  interval: 1m
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: scrypted
+  namespace: flux-system
+spec:
+  image: docker.io/linuxserver/scrypted
+  interval: 1m
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: homebridge
+  namespace: flux-system
+spec:
+  image: docker.io/linuxserver/homebridge
+  interval: 1m
