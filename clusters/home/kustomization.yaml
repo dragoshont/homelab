@@ -9,7 +9,7 @@ resources:
   - ../../apps/media/plex/
   - ../../apps/homeautomation/scrypted/
   - ../../apps/homeautomation/homebridge/
-  - ../../apps/games/nitrox/
-  - ../../apps/games/minecraft/
+ # - ../../apps/games/nitrox/
+ # - ../../apps/games/minecraft/
 
   - storage/
