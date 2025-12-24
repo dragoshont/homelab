@@ -14,3 +14,14 @@ homelab_nas_mountpoint: /media/nas
 
 homelab_nas_fstype: nfs4
 homelab_nas_mount_opts: rw,nfsvers=4,sec=sys,_netdev,nofail
+
+# Host paths used by Kubernetes manifests in this repo.
+# This role will create these directories if missing (it will not change ownership by default).
+homelab_hostpath_directories:
+  - /mnt/internal_drive/config
+  - /mnt/internal_drive/downloads
+  - /mnt/internal_drive/transcode
+  - /media/external_drive/complete
+
+# NAS paths (mountpoint itself is handled separately).
+homelab_hostpath_directory_mode: '0755'

@@ -17,6 +17,13 @@
     name: "{{ homelab_base_packages }}"
     state: present
 
+- name: Ensure common hostPath directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "{{ homelab_hostpath_directory_mode }}"
+  loop: "{{ homelab_hostpath_directories }}"
+
 - name: Ensure NAS mountpoint exists
   ansible.builtin.file:
     path: "{{ homelab_nas_mountpoint }}"
@@ -30,6 +37,28 @@
     fstype: "{{ homelab_nas_fstype }}"
     opts: "{{ homelab_nas_mount_opts }}"
     state: mounted
+
+- name: Read NAS-related fstab lines (sanity check)
+  ansible.builtin.command: >-
+    sh -lc "grep -nE '(^|\s){{ homelab_nas_host | regex_escape() }}:{{ homelab_nas_export | regex_escape() }}(\s|$)' /etc/fstab || true"
+  register: homelab_fstab_nas_lines
+  changed_when: false
+
+- name: Report NAS-related fstab lines
+  ansible.builtin.debug:
+    msg:
+      - "fstab entries for {{ homelab_nas_host }}:{{ homelab_nas_export }}:"
+      - "{{ homelab_fstab_nas_lines.stdout_lines | default([]) }}"
+
+- name: Warn if fstab contains a conflicting NAS mountpoint
+  ansible.builtin.debug:
+    msg: >-
+      WARNING: /etc/fstab contains an entry for {{ homelab_nas_host }}:{{ homelab_nas_export }}
+      that does not use mountpoint '{{ homelab_nas_mountpoint }}'.
+      This role will mount the share at '{{ homelab_nas_mountpoint }}', but older entries may still exist.
+  when:
+    - (homelab_fstab_nas_lines.stdout | default('')) | length > 0
+    - (homelab_fstab_nas_lines.stdout | default('')) is not search('\\s' ~ (homelab_nas_mountpoint | regex_escape()) ~ '\\s')
 
 - name: Check if reboot is required
   ansible.builtin.stat:
