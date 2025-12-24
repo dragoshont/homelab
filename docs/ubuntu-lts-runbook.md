@@ -78,6 +78,12 @@ ansible-playbook playbooks/bootstrap-ubuntu.yml \
   -l home.hont.ro \
   --connection=local \
   --become
+
+If your sudo prompts for a password, add:
+
+```bash
+  --ask-become-pass
+```
 ```
 
 ### Option B: Run Ansible from your workstation over SSH

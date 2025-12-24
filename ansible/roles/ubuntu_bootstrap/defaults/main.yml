@@ -12,5 +12,5 @@ homelab_nas_host: nas.hont.ro
 homelab_nas_export: /complete
 homelab_nas_mountpoint: /media_nas/complete
 
-homelab_nas_fstype: nfs
+homelab_nas_fstype: nfs4
 homelab_nas_mount_opts: rw,nfsvers=4,sec=sys,_netdev,nofail
