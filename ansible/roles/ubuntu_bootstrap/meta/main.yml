@@ -1,0 +1,7 @@
+---
+galaxy_info:
+  role_name: ubuntu_bootstrap
+  description: Bootstrap Ubuntu for homelab workloads
+  min_ansible_version: '2.14'
+
+dependencies: []

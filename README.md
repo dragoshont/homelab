@@ -1,40 +1,65 @@
-# Homelab GitOps Repository
+# Homelab (FluxCD)
 
-## Overview
-This repository manages a Kubernetes homelab using FluxCD for GitOps automation. It is structured to clearly separate concerns between cluster configuration, infrastructure components, and application deployments. This approach ensures that changes are automatically reconciled by Flux while keeping each domain of configuration isolated.
+This repository manages a Kubernetes homelab using FluxCD + Kustomize. Flux reconciles the cluster state from Git.
 
-## Folder Structure
-Below is the folder structure of the repository:
+## Runbook (Ubuntu host)
 
- ```
-homelab-gitops/
-├── clusters/             # Cluster-specific overlays for Flux (e.g., k3s cluster settings, Flux bootstrap files)
-├── infrastructure/       # Manifests for infrastructure components (storage, networking, CSI drivers, and Lens)
-│   ├── storage/          # PersistentVolume and PersistentVolumeClaim definitions, secrets, etc.
-│   ├── networking/       # Networking configuration and reverse proxy settings (e.g., Traefik)
-│   │   └── traefik/      # Traefik Helm chart repository and release definitions
-│   ├── smb-csi/          # HelmRelease for SMB CSI driver management
-├── apps/                 # Application deployments (media applications like Sonarr, Radarr, Prowlarr, qBittorrent)
-│   └── media/            # Media apps grouped together
-│       ├── sonarr/       # Sonarr manifests (deployment, service, ingress, kustomization)
-│       ├── radarr/       # Radarr manifests (deployment, service, ingress, kustomization)
-│       ├── prowlarr/     # Prowlarr manifests (deployment, service, ingress, kustomization)
-│       └── qbittorrent/  # qBittorrent manifests (deployment, service, ingress, kustomization)
-└── README.md             # Project documentation and rationale for the structure
+For setting up or reinstalling the bare-metal Ubuntu LTS machine (packages, full `apt upgrade`, NFS mount to the NAS, and operational troubleshooting), use:
+
+- [docs/ubuntu-lts-runbook.md](docs/ubuntu-lts-runbook.md)
+
+## Repository structure
+
+```text
+.
+├── clusters/                 # Cluster entrypoints (Flux sync, cluster kustomizations)
+│   └── home/                 # Home cluster (Flux reconciles ./clusters/home)
+├── apps/                     # App manifests (Deployments/Services/Kustomizations)
+├── ansible/                  # Ubuntu bootstrap (deps + apt upgrade + NAS mount)
+├── docs/                     # Operational docs and runbooks
+└── troubleshooting.md        # Quick pointers (see docs runbook)
 ```
 
-## Reasoning Behind the Folder Structure
+Key entrypoint:
 
-- **Clusters:**  
-  Contains configurations that are specific to each Kubernetes cluster environment (e.g., k3s) and includes files required for bootstrapping Flux. This allows you to manage different cluster environments separately.
+- [clusters/home/kustomization.yaml](clusters/home/kustomization.yaml)
 
-- **Infrastructure:**  
-  Houses all the low-level components that are essential for cluster operations, such as storage configurations (PersistentVolumes, PersistentVolumeClaims, secrets), networking settings (reverse proxy with Traefik), and monitoring tools (Lens). This separation helps to manage and update infrastructure services independently from application code.
+## Accessing apps on your home network (no ingress)
 
-- **Apps:**  
-  Contains the deployment manifests for your applications. Grouping the media applications (Sonarr, Radarr, Prowlarr, qBittorrent) under a single directory makes it easier to manage their configurations collectively, especially when they share common storage resources.
+This repo exposes most UIs using **NodePort** Services. Access pattern:
 
-- **GitOps Approach:**  
-  The entire structure is designed to be reconciled by Flux, ensuring that any changes committed to the repository are automatically applied to the cluster. This clear separation aids in troubleshooting, maintenance, and scalability of the homelab.
+- `http://<server-lan-ip>:<nodeport>`
 
-Enjoy managing your homelab using this GitOps repository structure!
+The exact ports are defined in each app’s `service.yaml`. The runbook lists the common ones.
+
+## Storage model
+
+Storage is currently based on local `hostPath` directories (and PVs backed by `hostPath`). The host is expected to provide directories like:
+
+- `/mnt/internal_drive/config`
+- `/mnt/internal_drive/downloads`
+- `/mnt/internal_drive/transcode`
+- `/media/external_drive/complete`
+
+Additionally, the NAS share is mounted on the host at:
+
+- `/media_nas/complete` (mounted from `nas.hont.ro:/complete`)
+
+## Secrets
+
+Avoid committing secrets in plaintext. Flux Git authentication (SSH deploy key secret) and app secrets should be created out-of-band, or managed using an encrypted-secrets approach (e.g., SOPS) if/when adopted.
+
+## Updates (how things stay current)
+
+There are two separate update loops:
+
+- **Kubernetes apps/config**: Flux reconciles the cluster from Git. Push changes to the branch Flux watches (see `clusters/home/flux-system/gotk-sync.yaml`) and Flux applies them.
+- **Ubuntu host OS/dependencies**: updated by running the Ansible bootstrap manually. It performs `apt update` + full `apt upgrade`, installs required packages (incl. `nfs-common`), and ensures the NAS mount exists. Reboots are manual-only.
+
+Ansible entrypoint:
+
+- `ansible/playbooks/bootstrap-ubuntu.yml`
+
+CI note:
+
+- GitHub Actions in this repo only runs lint/syntax checks for Ansible; it does not connect to or update your server.

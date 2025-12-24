@@ -1,0 +1,42 @@
+---
+- name: Ensure timezone is set
+  ansible.builtin.timezone:
+    name: "{{ homelab_timezone }}"
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Upgrade all packages (no reboot)
+  ansible.builtin.apt:
+    upgrade: full
+
+- name: Install base packages
+  ansible.builtin.apt:
+    name: "{{ homelab_base_packages }}"
+    state: present
+
+- name: Ensure NAS mountpoint exists
+  ansible.builtin.file:
+    path: "{{ homelab_nas_mountpoint }}"
+    state: directory
+    mode: '0755'
+
+- name: Ensure NAS share is mounted and persisted in fstab
+  ansible.posix.mount:
+    path: "{{ homelab_nas_mountpoint }}"
+    src: "{{ homelab_nas_host }}:{{ homelab_nas_export }}"
+    fstype: "{{ homelab_nas_fstype }}"
+    opts: "{{ homelab_nas_mount_opts }}"
+    state: mounted
+
+- name: Check if reboot is required
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  register: reboot_required
+
+- name: Report if reboot is required (manual only)
+  ansible.builtin.debug:
+    msg: "Reboot required on {{ inventory_hostname }} (manual-only policy)"
+  when: reboot_required.stat.exists

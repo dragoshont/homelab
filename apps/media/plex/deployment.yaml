@@ -22,8 +22,6 @@ spec:
           ports:
             - containerPort: 32400 # Plex Media Server
           env:
-            - name: PLEX_CLAIM
-              value: "claim-BaKwkHJKVeQzUvztPWsQ" # Optional: Add your Plex claim token here
             - name: ADVERTISE_IP
               value: "http://192.168.1.201:32400/" # Replace <your-server-ip> with your server's IP
             - name: TZ
@@ -35,18 +33,20 @@ spec:
               mountPath: /transcode
             - name: media
               mountPath: /media
+            - name: media-nas
+              mountPath: /media_nas/complete
             - name: dri
               mountPath: /dev/dri # Add this to mount the GPU device
           securityContext:
             privileged: true # Required for device access
-            livenessProbe:
-              httpGet:
-                path: /
-                port: 32400
-              initialDelaySeconds: 60  # Allow Plex enough time to start
-              periodSeconds: 30        # Check every 30 seconds
-              timeoutSeconds: 5        # Timeout after 5 seconds
-              failureThreshold: 3      # Restart after 3 consecutive failures
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 32400
+            initialDelaySeconds: 60  # Allow Plex enough time to start
+            periodSeconds: 30        # Check every 30 seconds
+            timeoutSeconds: 5        # Timeout after 5 seconds
+            failureThreshold: 3      # Restart after 3 consecutive failures
 
       volumes:
         - name: config
@@ -60,6 +60,10 @@ spec:
         - name: media
           hostPath:
             path: /media/external_drive/complete
+            type: DirectoryOrCreate
+        - name: media-nas
+          hostPath:
+            path: /media_nas/complete
             type: DirectoryOrCreate
         - name: dri
           hostPath:
