@@ -64,6 +64,21 @@ When making changes that should be applied to the cluster, ensure they land on t
 - Avoid committing secrets in plaintext.
 - If a change needs secrets, prefer documenting the manual creation step or using an encrypted-secrets approach (only if explicitly requested).
 
+## Adding a new app (checklist)
+
+When adding a new app, follow this checklist unless you explicitly decide otherwise:
+
+- **Location**: create a new folder under `apps/<category>/<appname>/`.
+- **Kustomize**:
+  - add a `kustomization.yaml` inside the app folder.
+  - include that app in the cluster entrypoint at `clusters/home/kustomization.yaml` (directly or via an intermediate `apps/.../kustomization.yaml`, matching existing patterns).
+- **Workload**: prefer `Deployment` + `Service`.
+- **LAN access**: expose UI via `Service type: NodePort` (no Ingress by default).
+- **Storage**:
+  - prefer existing hostPath roots (`/mnt/internal_drive/...`, `/media/external_drive/complete`, `/media/nas`) and document any new required directories.
+  - use `DirectoryOrCreate` only when it’s safe; otherwise prefer failing fast.
+- **Secrets**: do not commit plaintext secrets; document the required secret creation steps.
+
 ## Change discipline
 
 - Make minimal, focused changes.
