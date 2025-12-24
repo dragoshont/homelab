@@ -18,9 +18,9 @@ Start here:
 On `home.hont.ro`:
 
 ```bash
-mount | grep /media_nas/complete || true
+mount | grep /media/nas || true
 sudo mount -a
-ls -la /media_nas/complete
+ls -la /media/nas
 ```
 
 ### Flux not applying changes

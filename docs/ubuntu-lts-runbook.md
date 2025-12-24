@@ -6,7 +6,7 @@ This document is a practical setup + troubleshooting guide for (re)installing th
 
 - Target host: `home.hont.ro` (Ubuntu LTS, bare metal)
 - NAS: `nas.hont.ro` exports `:/complete`
-- NAS mountpoint on host: `/media_nas/complete`
+- NAS mountpoint on host: `/media/nas`
 - Kubernetes manifests are applied by FluxCD (GitOps). This repo does **not** include scripts that install Kubernetes.
 
 ## 0) Pre-flight checklist
@@ -54,20 +54,17 @@ This repo contains an Ansible bootstrap that:
 
 - Runs `apt update` + full `apt upgrade` (no automatic reboot)
 - Installs baseline packages including `nfs-common`
-- Mounts `nas.hont.ro:/complete` at `/media_nas/complete` and persists it via `/etc/fstab`
+- Mounts `nas.hont.ro:/complete` at `/media/nas` and persists it via `/etc/fstab`
 
 ### Option A: Run Ansible locally on the host (simplest)
 
 ```bash
 cd ~/src/homelab/ansible
 
-# install ansible
+# install ansible (recommended on Ubuntu 24.04+; avoids PEP 668 pip issues)
 sudo apt update
-sudo apt install -y python3-pip
-python3 -m pip install --user ansible
-
-# ensure ~/.local/bin is on PATH for your shell session
-export PATH="$HOME/.local/bin:$PATH"
+sudo apt install -y ansible
+ansible-playbook --version | head -n 1
 
 # install required collections
 ansible-galaxy collection install -r requirements.yml
@@ -77,14 +74,13 @@ ansible-playbook playbooks/bootstrap-ubuntu.yml \
   -i inventories/home/hosts.yml \
   -l home.hont.ro \
   --connection=local \
-  --become
-
-If your sudo prompts for a password, add:
-
-```bash
+  --become \
   --ask-become-pass
 ```
-```
+
+Notes:
+
+- Running locally on the host is the most reliable option when your workstation is Windows/PowerShell (avoids SSH quoting issues) and when `sudo` prompts for a password.
 
 ### Option B: Run Ansible from your workstation over SSH
 
@@ -100,9 +96,14 @@ ansible-playbook playbooks/bootstrap-ubuntu.yml -i inventories/home/hosts.yml --
 ### Verify the NAS mount
 
 ```bash
-mount | grep /media_nas/complete || true
-ls -la /media_nas/complete
+mount | grep /media/nas || true
+ls -la /media/nas
 ```
+
+Expected:
+
+- The `mount` command prints a line containing `/media/nas`.
+- `ls` shows your NAS content (not an empty local directory).
 
 ## 4) Kubernetes + Flux notes
 
@@ -233,7 +234,7 @@ showmount -e nas.hont.ro || true
 1. Check fstab entry and try a remount:
 
 ```bash
-sudo findmnt /media_nas/complete || true
+sudo findmnt /media/nas || true
 sudo mount -a
 ```
 
@@ -264,7 +265,7 @@ Common required directories include:
 - `/mnt/internal_drive/downloads`
 - `/mnt/internal_drive/transcode`
 - `/media/external_drive/complete`
-- `/media_nas/complete`
+- `/media/nas`
 
 Create missing directories and ensure permissions are correct.
 
@@ -327,8 +328,8 @@ kubectl -n <namespace> logs deploy/<name> --tail=200
 On `home.hont.ro`:
 
 ```bash
-mount | grep /media_nas/complete || true
-ls -la /media_nas/complete | head
+mount | grep /media/nas || true
+ls -la /media/nas | head
 ```
 
 ### LAN access (NodePorts)

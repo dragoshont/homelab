@@ -34,7 +34,7 @@ spec:
             - name: media
               mountPath: /media
             - name: media-nas
-              mountPath: /media_nas/complete
+              mountPath: /media/nas
             - name: dri
               mountPath: /dev/dri # Add this to mount the GPU device
           securityContext:
@@ -63,7 +63,7 @@ spec:
             type: DirectoryOrCreate
         - name: media-nas
           hostPath:
-            path: /media_nas/complete
+            path: /media/nas
             type: DirectoryOrCreate
         - name: dri
           hostPath:

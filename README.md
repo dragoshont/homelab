@@ -43,7 +43,7 @@ Storage is currently based on local `hostPath` directories (and PVs backed by `h
 
 Additionally, the NAS share is mounted on the host at:
 
-- `/media_nas/complete` (mounted from `nas.hont.ro:/complete`)
+- `/media/nas` (mounted from `nas.hont.ro:/complete`)
 
 ## Secrets
 
