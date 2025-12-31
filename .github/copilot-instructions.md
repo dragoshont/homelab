@@ -179,7 +179,7 @@ choco install -y flux
 
 ## Secrets Handling
 
-**CRITICAL: Never commit real secrets to this repository.**
+**CRITICAL: Never commit real secrets, credentials, or sensitive endpoints to this repository.**
 
 ### Secrets Management Strategy
 
@@ -207,10 +207,45 @@ choco install -y flux
    - Use ExternalSecret CRDs referencing the external secret store
    - Document required secret keys in comments
 
-4. **Secret Documentation**: Always document:
+4. **GitHub Secrets for Application Endpoints**: Store application endpoints and sensitive configuration in GitHub Secrets
+   - **Never hardcode** endpoints, API URLs, or connection strings in YAML files
+   - Use GitHub repository secrets for environment-specific values
+   - Reference secrets via ExternalSecrets Operator or GitHub Actions workflows
+   - Example sensitive values to store in GitHub Secrets:
+     - Application API endpoints
+     - Database connection strings
+     - External service URLs
+     - Webhook endpoints
+     - OAuth callback URLs
+   
+   Example ExternalSecret referencing GitHub secret:
+   ```yaml
+   apiVersion: external-secrets.io/v1beta1
+   kind: ExternalSecret
+   metadata:
+     name: app-endpoints
+     namespace: my-app
+   spec:
+     refreshInterval: 1h
+     secretStoreRef:
+       name: github-secret-store
+       kind: SecretStore
+     target:
+       name: app-endpoints-secret
+     data:
+     - secretKey: API_ENDPOINT
+       remoteRef:
+         key: MY_APP_API_ENDPOINT
+     - secretKey: WEBHOOK_URL
+       remoteRef:
+         key: MY_APP_WEBHOOK_URL
+   ```
+
+5. **Secret Documentation**: Always document:
    - Required secret keys
    - Expected format/type
    - How to create/populate the secret in production
+   - Which GitHub Secrets need to be configured
 
 ## PR Hygiene
 
