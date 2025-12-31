@@ -121,11 +121,17 @@ Example PowerShell script:
 # Check if winget is available (Windows 11 or Windows 10 with App Installer)
 if (Get-Command winget -ErrorAction SilentlyContinue) {
     # Install dependencies using winget
+    Write-Host "Installing kubectl using winget..."
     winget install --id Kubernetes.kubectl --exact --accept-source-agreements --accept-package-agreements
+    if ($LASTEXITCODE -ne 0) { Write-Warning "kubectl installation may have failed" }
+    
+    Write-Host "Installing Flux using winget..."
     winget install --id FluxCD.Flux --exact --accept-source-agreements --accept-package-agreements
+    if ($LASTEXITCODE -ne 0) { Write-Warning "Flux installation may have failed" }
 }
 else {
-    Write-Warning "winget not found. Install 'App Installer' from Microsoft Store or use Chocolatey as fallback."
+    Write-Warning "winget not found. Install from: ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1"
+    Write-Host "Alternative: Download from https://aka.ms/getwinget"
     # Fallback to Chocolatey if needed
     if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
         Write-Host "Installing Chocolatey..."
