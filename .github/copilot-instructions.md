@@ -115,9 +115,11 @@ Example PowerShell script:
 
 # Install Chocolatey if not present
 if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
-    Set-ExecutionPolicy Bypass -Scope Process -Force
+    # Use official Chocolatey installation method
+    # See: https://chocolatey.org/install
+    Set-ExecutionPolicy RemoteSigned -Scope Process -Force
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    Invoke-RestMethod -Uri 'https://community.chocolatey.org/install.ps1' -UseBasicParsing | Invoke-Expression
 }
 
 # Install dependencies
