@@ -98,7 +98,7 @@ Use **PowerShell Desired State Configuration (DSC)** or **PowerShell scripts** t
 2. **Alternative: PowerShell scripts** for imperative setup
    - Create PowerShell scripts in a `scripts/windows/` directory
    - Use `Install-Module` for PowerShell modules
-   - Use `choco install` or `winget install` for package management
+   - Use `winget install` or `choco install` for package management (prefer winget when available)
    - Include error handling and idempotency checks
 
 Example structure:
@@ -118,19 +118,23 @@ Example PowerShell script:
 # Install-HomelabDependencies.ps1
 #Requires -RunAsAdministrator
 
-# Install Chocolatey if not present
-if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
-    # Use official Chocolatey installation method
-    # See: https://chocolatey.org/install
-    # Note: For production use, consider downloading and verifying the script before execution
-    Set-ExecutionPolicy RemoteSigned -Scope Process -Force
-    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-    Invoke-RestMethod -Uri 'https://community.chocolatey.org/install.ps1' -UseBasicParsing | Invoke-Expression
+# Check if winget is available (Windows 11 or Windows 10 with App Installer)
+if (Get-Command winget -ErrorAction SilentlyContinue) {
+    # Install dependencies using winget
+    winget install --id Kubernetes.kubectl --exact --accept-source-agreements --accept-package-agreements
+    winget install --id FluxCD.Flux --exact --accept-source-agreements --accept-package-agreements
 }
-
-# Install dependencies
-choco install -y kubernetes-cli
-choco install -y flux
+else {
+    Write-Warning "winget not found. Install 'App Installer' from Microsoft Store or use Chocolatey as fallback."
+    # Fallback to Chocolatey if needed
+    if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
+        Write-Host "Installing Chocolatey..."
+        Set-ExecutionPolicy RemoteSigned -Scope Process -Force
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+        Invoke-RestMethod -Uri 'https://community.chocolatey.org/install.ps1' -UseBasicParsing | Invoke-Expression
+    }
+    choco install -y kubernetes-cli flux
+}
 ```
 
 ### General Guidelines
@@ -206,12 +210,8 @@ choco install -y flux
 3. **External Secrets**: If ExternalSecrets Operator is used:
    - Use ExternalSecret CRDs referencing the external secret store
    - Document required secret keys in comments
-
-4. **GitHub Secrets for Application Endpoints**: Store application endpoints and sensitive configuration in GitHub Secrets
-   - **Never hardcode** endpoints, API URLs, or connection strings in YAML files
-   - Use GitHub repository secrets for environment-specific values
-   - Reference secrets via ExternalSecrets Operator or GitHub Actions workflows
-   - Example sensitive values to store in GitHub Secrets:
+   - **Critical for endpoints**: Never hardcode application endpoints, API URLs, or connection strings in YAML files
+   - Store sensitive configuration in GitHub Secrets or other secret stores:
      - Application API endpoints
      - Database connection strings
      - External service URLs
@@ -241,7 +241,7 @@ choco install -y flux
          key: MY_APP_WEBHOOK_URL
    ```
 
-5. **Secret Documentation**: Always document:
+4. **Secret Documentation**: Always document:
    - Required secret keys
    - Expected format/type
    - How to create/populate the secret in production
