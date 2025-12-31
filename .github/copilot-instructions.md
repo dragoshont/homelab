@@ -76,9 +76,14 @@ ansible/
 Example playbook task:
 ```yaml
 - name: Install kubectl
-  ansible.builtin.package:
-    name: kubectl
-    state: present
+  ansible.builtin.get_url:
+    url: https://dl.k8s.io/release/v1.28.0/bin/linux/amd64/kubectl
+    dest: /usr/local/bin/kubectl
+    mode: '0755'
+  # Alternative: Use package manager with appropriate repository
+  # ansible.builtin.package:
+  #   name: kubectl
+  #   state: present
 ```
 
 ### Windows Machines
@@ -117,6 +122,7 @@ Example PowerShell script:
 if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
     # Use official Chocolatey installation method
     # See: https://chocolatey.org/install
+    # Note: For production use, consider downloading and verifying the script before execution
     Set-ExecutionPolicy RemoteSigned -Scope Process -Force
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
     Invoke-RestMethod -Uri 'https://community.chocolatey.org/install.ps1' -UseBasicParsing | Invoke-Expression
