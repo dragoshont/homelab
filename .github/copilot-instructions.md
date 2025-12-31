@@ -151,11 +151,14 @@ Run the following validation steps before submitting a PR:
 
 ```bash
 # Validate each cluster configuration builds successfully
-kustomize build clusters/production/ > /dev/null
-kustomize build clusters/staging/ > /dev/null
+kustomize build clusters/production/ > /dev/null && echo "✓ Production cluster valid" || echo "✗ Production cluster failed"
+kustomize build clusters/staging/ > /dev/null && echo "✓ Staging cluster valid" || echo "✗ Staging cluster failed"
 
 # Validate specific app overlays
-kustomize build apps/overlays/production/my-app/ > /dev/null
+kustomize build apps/overlays/production/my-app/ > /dev/null && echo "✓ App overlay valid" || echo "✗ App overlay failed"
+
+# Or to see the output for debugging
+kustomize build clusters/production/
 ```
 
 ### 2. YAML Linting (if yamllint is available)
@@ -201,7 +204,9 @@ flux diff kustomization flux-system --path=clusters/production/
 ### 6. Manual Verification
 
 - Review all changes with `git diff`
-- Verify no secrets are exposed: `git diff | grep -i "password\|secret\|token\|key"`
+- Verify no secrets are exposed: `git diff | grep -iE "password|secret|token|key|api[-_]?key"`
+  - Note: For comprehensive secret detection, consider tools like `git-secrets` or `truffleHog`
+  - Check for base64-encoded secrets: `git diff | grep -E "[A-Za-z0-9+/]{20,}={0,2}"`
 - Check for debugging artifacts or temporary changes
 
 ## Cloudflare Tunnel Ingress
@@ -217,6 +222,7 @@ If this homelab uses Cloudflare Tunnel for ingress:
    metadata:
      name: my-app
      annotations:
+       # Note: alpha annotation may change in future ExternalDNS versions
        external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
    spec:
      ingressClassName: cloudflare-tunnel
