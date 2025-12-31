@@ -43,6 +43,96 @@ apps/
             └── patch-deployment.yaml
 ```
 
+## Managing Homelab Dependencies
+
+When adding or updating tools and dependencies required for the homelab environment, use platform-specific automation:
+
+### Linux Machines
+
+Use **Ansible** to manage dependencies and configuration:
+
+1. Create or update Ansible playbooks in an `ansible/` directory
+2. Organize playbooks by function (e.g., `bootstrap.yml`, `kubernetes.yml`, `monitoring.yml`)
+3. Use roles for reusable components
+4. Document required variables in the playbook or a `README.md`
+
+Example structure:
+```
+ansible/
+├── inventory/
+│   ├── hosts.yml
+│   └── group_vars/
+├── playbooks/
+│   ├── bootstrap.yml
+│   ├── kubernetes-setup.yml
+│   └── install-dependencies.yml
+├── roles/
+│   ├── docker/
+│   ├── kubectl/
+│   └── flux/
+└── ansible.cfg
+```
+
+Example playbook task:
+```yaml
+- name: Install kubectl
+  ansible.builtin.package:
+    name: kubectl
+    state: present
+```
+
+### Windows Machines
+
+Use **PowerShell Desired State Configuration (DSC)** or **PowerShell scripts** to manage dependencies:
+
+1. **Preferred: PowerShell DSC** for declarative configuration
+   - Create DSC configurations in a `dsc/` directory
+   - Use built-in or community DSC resources
+   - Document prerequisites and how to apply configurations
+
+2. **Alternative: PowerShell scripts** for imperative setup
+   - Create PowerShell scripts in a `scripts/windows/` directory
+   - Use `Install-Module` for PowerShell modules
+   - Use `choco install` or `winget install` for package management
+   - Include error handling and idempotency checks
+
+Example structure:
+```
+scripts/
+├── windows/
+│   ├── Install-HomelabDependencies.ps1
+│   ├── Install-KubernetesTools.ps1
+│   └── README.md
+└── dsc/
+    ├── HomelabConfig.ps1
+    └── README.md
+```
+
+Example PowerShell script:
+```powershell
+# Install-HomelabDependencies.ps1
+#Requires -RunAsAdministrator
+
+# Install Chocolatey if not present
+if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
+    Set-ExecutionPolicy Bypass -Scope Process -Force
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+}
+
+# Install dependencies
+choco install -y kubernetes-cli
+choco install -y flux
+```
+
+### General Guidelines
+
+- **Document dependencies**: Maintain a list of required tools and versions in the repository README or a dedicated `DEPENDENCIES.md` file
+- **Version pinning**: Pin specific versions in automation scripts to ensure reproducibility
+- **Idempotency**: Ensure scripts can be run multiple times safely without causing issues
+- **Testing**: Test automation scripts in a clean environment before committing
+- **Cross-platform note**: If a tool is needed on both platforms, document installation for both
+
 ## Preferred Patterns
 
 ### Manifest Types (Priority Order)
