@@ -205,7 +205,9 @@ flux diff kustomization flux-system --path=clusters/production/
 
 - Review all changes with `git diff`
 - Verify no secrets are exposed: `git diff | grep -iE "password|secret|token|key|api[-_]?key"`
-  - Note: For comprehensive secret detection, consider tools like `git-secrets` or `TruffleHog`
+  - Note: For comprehensive secret detection, consider tools like:
+    - `git-secrets`: https://github.com/awslabs/git-secrets
+    - `TruffleHog`: https://github.com/trufflesecurity/trufflehog
   - Check for base64-encoded secrets: `git diff | grep -E "[A-Za-z0-9+/]{20,}={0,2}"`
 - Check for debugging artifacts or temporary changes
 
@@ -223,7 +225,8 @@ If this homelab uses Cloudflare Tunnel for ingress:
      name: my-app
      annotations:
        # Note: This annotation is in alpha. Verify current annotation format in ExternalDNS docs
-       # https://github.com/kubernetes-sigs/external-dns
+       # ExternalDNS: https://github.com/kubernetes-sigs/external-dns
+       # Cloudflare provider: https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/cloudflare.md
        external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
    spec:
      ingressClassName: cloudflare-tunnel
