@@ -165,12 +165,20 @@ The reverse proxy rejects missing headers and blocks uploads >100MB.
 
 ## 5a) Optional: Google login (OIDC) for internal auth
 
-If Immich supports OIDC in your chosen version, you may configure Google login for your owner account so internal LAN/VPN access uses Google auth instead of (or in addition to) Immich local credentials.
+Immich supports third-party authentication via OpenID Connect (OIDC) (“OAuth Authentication”).
 
-Requirements constraints for this repo:
+This repo does not automate OIDC via env vars because that approach is not documented in the official Immich docs.
 
-- OIDC client ID/secret must be stored in a Kubernetes Secret created out-of-band (or injected via CI/CD using GitHub Secrets).
-- Do not commit any OIDC secrets or real identity details to Git.
+Official-doc aligned approach:
+
+- Configure OAuth/OIDC from the Immich web UI: Administration → Settings → OAuth.
+- Ensure your OAuth provider allows redirect URIs for all entrypoints you will use.
+
+Redirect URIs to consider (examples):
+
+- Mobile: `app.immich:///oauth-callback`
+- Internal NodePort: `http://NODE_LAN_IP:30082/auth/login` and `http://NODE_LAN_IP:30082/user-settings`
+- External hostname: `https://IMMICH_FQDN/auth/login` and `https://IMMICH_FQDN/user-settings`
 
 ## 5b) Initial bootstrap/admin (no committed credentials)
 

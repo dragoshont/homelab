@@ -64,14 +64,6 @@ description: "Task list for feature implementation"
 - [x] T020 [US2] Implement the “NAS must be mounted or do not write” safeguard by adding an initContainer or readiness gate in `apps/media/immich/deployment.yaml` that fails when NAS is not mounted/available (document the operator-visible failure signal)
 - [x] T021 [US2] Update `specs/001-immich-zero-trust/quickstart.md` with the exact placeholder hostPath values used in manifests and the exact overlay/patch mechanism operators use to supply the real NAS mount path locally (not committed), plus operator prerequisites (mount stability + permissions)
 
-### Optional (OIDC) — support Google login without committed secrets
-
-- [ ] T022 [P] [US2] Create `apps/media/immich/overlays/oidc/kustomization.yaml` that composes the base Immich manifests plus an OIDC patch (overlay is not enabled by default)
-- [ ] T023 [US2] Create `apps/media/immich/overlays/oidc/patch-oidc-env.yaml` adding the required Immich OIDC env vars and referencing an out-of-band Kubernetes Secret for the OIDC client secret
-- [ ] T024 [US2] Update `specs/001-immich-zero-trust/quickstart.md` with OIDC enablement steps (overlay apply) and the expected secret name/keys (no secret values in Git)
-
----
-
 ## Phase 5: User Story 3 — Operate via GitOps with clear setup docs (Priority: P3)
 
 **Goal**: Flux reconciles all manifests; operator docs cover Cloudflare Tunnel, Cloudflare DNS, UniFi split-horizon DNS, and large-upload LAN/VPN guidance.
@@ -98,7 +90,7 @@ description: "Task list for feature implementation"
 
 - [x] T030 [P] Normalize labels/selectors across `apps/media/immich/deployment.yaml`, `apps/media/immich/deployment-postgres.yaml`, `apps/media/immich/deployment-redis.yaml`, `apps/media/immich/deployment-machine-learning.yaml`, and `apps/media/immich/service.yaml` to match repo conventions
 - [x] T031 Validate manifests render cleanly with `kustomize build clusters/home` and fix any kustomize/resource path issues in `clusters/home/kustomization.yaml` and referenced app kustomizations
-- [ ] T032 Verify no private identifiers are introduced by following the scan steps in `specs/001-immich-zero-trust/quickstart.md` and reviewing changed YAML under `apps/` for accidental real hostnames/tokens
+- [x] T032 Verify no private identifiers are introduced by following the scan steps in `specs/001-immich-zero-trust/quickstart.md` and reviewing changed YAML under `apps/` for accidental real hostnames/tokens
 - [x] T033 Confirm external-only enforcement by verifying `apps/media/immich/service.yaml` is the only `NodePort` and `apps/networking/immich-origin-proxy/service.yaml` remains `ClusterIP`
 
 ---
