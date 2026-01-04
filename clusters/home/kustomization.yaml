@@ -7,9 +7,13 @@ resources:
   - ../../apps/media/radarr/
   - ../../apps/media/prowlarr/
   - ../../apps/media/plex/
+  - ../../apps/media/immich/
   - ../../apps/homeautomation/scrypted/
   - ../../apps/homeautomation/homebridge/
  # - ../../apps/games/nitrox/
  # - ../../apps/games/minecraft/
+
+  - ../../apps/networking/immich-origin-proxy/
+  - ../../apps/networking/cloudflared/
 
   - storage/

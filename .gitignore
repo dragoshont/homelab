@@ -1,2 +1,31 @@
 patch.ps1
 delete-local-flus-created-resources.ps1
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+
+# Logs/temp
+*.log
+*.tmp
+*.swp
+
+# Local environment secrets/config
+.env
+.env.*
+
+# Kubernetes sensitive files (keep private; do not commit)
+*.secret.yaml
+*.secrets.yaml
+secrets/
+.kube/
+kubeconfig*
+*.key
+*.crt
+
+# Tooling
+.idea/
+.vscode/
+
+# Local-only kustomize overlays (do not commit)
+apps/**/overlays/local*/

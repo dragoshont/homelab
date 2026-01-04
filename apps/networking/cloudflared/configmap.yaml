@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared-config
+data:
+  config.template.yaml: |
+    tunnel: __TUNNEL_ID__
+    credentials-file: /etc/cloudflared/creds/credentials.json
+
+    ingress:
+      - hostname: __IMMICH_FQDN__
+        service: http://immich-origin-proxy:8080
+      - service: http_status:404

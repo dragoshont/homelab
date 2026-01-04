@@ -1,5 +1,22 @@
 # This file provides instructions for setting up a local DNS solution or configuring the /etc/hosts file for DNS management.
 
+## UniFi Dream Machine split-horizon DNS (Immich)
+
+Immich in this repo is designed to use the **same hostname** internally and externally:
+
+- External (Internet): hostname resolves to Cloudflare (tunnel + Access)
+- Internal (LAN/VPN): hostname resolves to the Kubernetes node LAN IP (NodePort)
+
+On the UniFi Dream Machine:
+
+1. Create a **local DNS record/override** for your Immich hostname (use your real value locally; do not commit it).
+2. Point it to the Kubernetes node LAN IP.
+3. Validate resolution:
+   - On LAN/VPN, `IMMICH_FQDN` should resolve to `NODE_LAN_IP`.
+   - Off-LAN, `IMMICH_FQDN` should resolve to the Cloudflare public record.
+
+If LAN clients still resolve the public record, disable “private DNS”/DoH on the client or ensure the client is actually using the UDM for DNS.
+
 ## Local DNS Solutions
 
 For a more dynamic DNS management solution, consider using a lightweight DNS server like **CoreDNS** or **dnsmasq**. These solutions can help manage DNS records for your Kubernetes services and provide a more flexible approach than static entries.

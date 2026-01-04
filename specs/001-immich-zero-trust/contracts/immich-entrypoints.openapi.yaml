@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: Immich Homelab Entrypoints (Operational Contract)
+  version: 1.0.0
+  description: |
+    Operational contract for how Immich is exposed in this homelab.
+
+    This is NOT the Immich application API. It describes the two supported entrypoints:
+    - External: Cloudflare Tunnel + Cloudflare Access + origin reverse-proxy enforcement
+    - Internal: LAN/VPN NodePort
+
+servers:
+  - url: https://IMMICH_EXTERNAL_HOSTNAME
+    description: External hostname (placeholder; do not commit real domain)
+  - url: http://IMMICH_INTERNAL_NODE_IP:IMMICH_NODEPORT
+    description: Internal LAN/VPN access via NodePort
+
+paths:
+  /{proxyPath}:
+    parameters:
+      - name: proxyPath
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Path forwarded to Immich (wildcard-style).
+    get:
+      summary: Access Immich UI/API via entrypoint
+      parameters:
+        - name: Cf-Access-Jwt-Assertion
+          in: header
+          required: false
+          schema:
+            type: string
+          description: |
+            Present on external requests after Cloudflare Access authentication.
+            Required by the origin reverse proxy on the external path.
+      responses:
+        '200':
+          description: Request proxied to Immich.
+        '401':
+          description: Missing/invalid Cloudflare Access identity on the external path.
+        '413':
+          description: Payload too large (>100MB) on the external path.
+    post:
+      summary: Upload or mutate requests proxied to Immich
+      parameters:
+        - name: Cf-Access-Jwt-Assertion
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Request proxied to Immich.
+        '401':
+          description: Missing/invalid Cloudflare Access identity on the external path.
+        '413':
+          description: Payload too large (>100MB) on the external path.

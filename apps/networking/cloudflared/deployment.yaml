@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared
+  labels:
+    app: cloudflared
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflared
+  template:
+    metadata:
+      labels:
+        app: cloudflared
+    spec:
+      serviceAccountName: cloudflared
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:latest
+          envFrom:
+            - secretRef:
+                name: cloudflared-immich
+          command:
+            - sh
+            - -c
+            - |
+              set -eu
+              sed \
+                -e "s|__TUNNEL_ID__|${TUNNEL_ID}|g" \
+                -e "s|__IMMICH_FQDN__|${IMMICH_FQDN}|g" \
+                /etc/cloudflared/config/config.template.yaml > /tmp/config.yaml
+              exec cloudflared tunnel --config /tmp/config.yaml run
+          volumeMounts:
+            - name: config
+              mountPath: /etc/cloudflared/config
+            - name: creds
+              mountPath: /etc/cloudflared/creds
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: cloudflared-config
+        - name: creds
+          secret:
+            secretName: cloudflared-immich
+            items:
+              - key: credentials.json
+                path: credentials.json
